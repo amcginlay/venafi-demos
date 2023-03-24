@@ -29,4 +29,6 @@ That's where cert-manager comes in.
 
 We assume your AWS resources are hosted in the **eu-west-2** region.
 
+These instructions depend upon content from this directory in the repo so `git clone` this repo and `cd` as appropriate.
+
 Next: [Main Menu](/README.md) | [Openshift with ingress-nginx and cert-manager](../02-openshift-ingress-nginx-cert-manager/README.md)
