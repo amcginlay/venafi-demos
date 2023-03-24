@@ -46,6 +46,9 @@ The password is in `${base}/openshift/auth/kubeadmin-password`.
 
 ## Install and configure cert-manager
 The following command will install cert-manager via the OperatorHub.
+
+**REDO** just describe this from the UI, THIS must be 100% repeatable 
+
 ```
 oc apply -f - <<EOF
 apiVersion: operators.coreos.com/v1alpha1
@@ -86,6 +89,9 @@ EOF
 
 ## Install and configure NGINX Ingress
 The following command will install NGINX Ingress Opertaor via the OperatorHub.
+
+**REDO** just describe this from the UI, THIS must be 100% repeatable 
+
 ```
 oc new-project nginx-ingress # <-- TEST ON NEW CLUSTER, SEE IF NECESSARY!
 oc apply -f - <<EOF
