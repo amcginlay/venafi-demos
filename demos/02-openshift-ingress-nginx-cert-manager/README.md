@@ -21,4 +21,12 @@ That's where cert-manager comes in.
 
 ![title](images/nginx-tls-os.png)
 
+## Prerequisites
+
+- The necessary client tools installed
+- Access to a running Openshift cluster via `oc`
+- Full control of your own domain (or subdomain) surfaced as a **hosted zone** in AWS Route53.
+
+We assume your AWS resources are hosted in the **eu-west-2** region.
+
 Next: [Main Menu](/README.md) | [Openshift with ingress-nginx and cert-manager](../02-openshift-ingress-nginx-cert-manager/README.md)
