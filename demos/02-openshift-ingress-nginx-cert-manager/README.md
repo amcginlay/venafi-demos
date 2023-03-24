@@ -47,13 +47,12 @@ The password is in `${base}/openshift/auth/kubeadmin-password`.
 ## Install and configure cert-manager
 The following command will install cert-manager via the OperatorHub.
 ```
-oc new-project cert-manager
 oc apply -f - <<EOF
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
   name: cert-manager
-  namespace: cert-manager
+  namespace: openshift-operators # <-- NOTE non-standard namespace
 spec:
   channel: stable
   name: cert-manager
