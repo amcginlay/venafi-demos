@@ -17,7 +17,7 @@ The NGINX Ingress Operator is a packaged version of nginx for deployment inside 
 Instead of having to edit nginx configuration files by hand, NGINX Ingress supports declarative configuration via Kubernetes Ingress objects.
 Those Ingress objects can reference certificates stored as Kubernetes secrets.
 On its own, NGINX Ingress is unable to create certificates or renew them before they expire.
-That's where cert-manager and Let's Encrypt comes in.
+That's where cert-manager and Let's Encrypt come in.
 
 ![title](images/nginx-tls-os.png)
 
