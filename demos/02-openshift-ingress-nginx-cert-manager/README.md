@@ -87,6 +87,7 @@ EOF
 ## Install and configure NGINX Ingress
 The following command will install NGINX Ingress Opertaor via the OperatorHub.
 ```
+oc new-project nginx-ingress # <-- TEST ON NEW CLUSTER, SEE IF NECESSARY!
 oc apply -f - <<EOF
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
