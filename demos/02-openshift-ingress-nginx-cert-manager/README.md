@@ -19,6 +19,6 @@ Those Ingress objects can reference certificates stored as Kubernetes secrets.
 On its own, NGINX Ingress is unable to create certificates or renew them before they expire.
 That's where cert-manager comes in.
 
-![title](../images/nginx-tls-os.png)
+![title](images/nginx-tls-os.png)
 
 Next: [Main Menu](/README.md) | [Openshift with ingress-nginx and cert-manager](../02-openshift-ingress-nginx-cert-manager/README.md)
