@@ -36,7 +36,7 @@ Check connectivity via the CLI, navigate to the console URL produced and login a
 oc -n openshift-console get routes console -o=jsonpath="{range}{'https://'}{.spec.host}{'\n'}{end}"
 ```
 
-Henceforth we will refer to this URL location as http://your_cluster/.
+Henceforth we will refer to this URL location as https://your_cluster/.
 
 ## Enable All OperatorHub sources
 Some of the OperatorHub sources may not be available by default meaning that the **NGINX Ingress Operator** may appear to be unavailable.
