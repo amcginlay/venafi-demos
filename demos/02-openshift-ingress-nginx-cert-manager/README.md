@@ -92,6 +92,8 @@ If you wish to watch the cert-manager workloads and services as they come online
 watch "oc -n openshift-operators get pod,svc"
 ```
 
+The OperatorHub install of cert-manager does not require any patching and automatically deploys the required workloads.
+
 # TODO got this far, ALL GOOD!
 
 <!--
