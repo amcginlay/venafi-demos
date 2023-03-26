@@ -31,10 +31,12 @@ We assume your AWS resources are hosted in the **eu-west-2** region.
 These instructions depend upon content from this directory so `git clone` this repo and `cd` as appropriate.
 
 ### Check CLI/Console connectivity
-Check connectivity via the CLI, navigate to the console URL produced and login as kubeadmin.
+Check connectivity via the CLI, navigate to the console URL produced and login as `kubeadmin`.
 ```
 oc -n openshift-console get routes console -o=jsonpath="{range}{'https://'}{.spec.host}{'\n'}{end}"
 ```
+
+Henceforth we will refer to this URL location as http://your_cluster/.
 
 ## Enable All OperatorHub sources
 Some of the OperatorHub sources may not be available by default meaning that the **NGINX Ingress Operator** may appear to be unavailable.
@@ -44,13 +46,10 @@ oc patch OperatorHub cluster --type json \
   -p '[{"op": "add", "path": "/spec/disableAllDefaultSources", "value": false}]'
 ```
 
-### Web Console accesss
-Navigate to `https://console-openshift-console.apps.openshift.<your-domain>/`.
-Log in with Username `kubeadmin`.
-The password is in `${base}/openshift/auth/kubeadmin-password`.
-
 ## Install and configure cert-manager
 The following command will install cert-manager via the OperatorHub.
+
+
 
 **REDO** just describe this from the UI, THIS must be 100% repeatable 
 
