@@ -78,9 +78,6 @@ Only now, can you successfully deploy your NGINX Ingress Controller instance, as
 
 Your previous `watch` command will reveal further objects as your Ingress Controller comes online.
 
-
-# TODO this is where I got to, think I did not run the "adm policy add-scc-to-user" lines so controller pod hung, check logs
-
 ## Install cert-manager
 From the OperatorHub.
 - Search for "cert-manager" then click the "cert-manager (Community)" tile
@@ -91,31 +88,7 @@ If you wish to watch the cert-manager objects as they come online, set up a watc
 watch "oc -n openshift-operators get pod,svc"
 ```
 
-
-
-
-
-
-The following command will install cert-manager via the OperatorHub.
-
-
-
-**REDO** just describe this from the UI, THIS must be 100% repeatable 
-
-```
-oc apply -f - <<EOF
-apiVersion: operators.coreos.com/v1alpha1
-kind: Subscription
-metadata:
-  name: cert-manager
-  namespace: openshift-operators # <-- NOTE non-standard namespace
-spec:
-  channel: stable
-  name: cert-manager
-  source: community-operators
-  sourceNamespace: openshift-marketplace
-EOF
-```
+# TODO got this far, ALL GOOD!
 
 <!--
 cert-manager is unable to oversee the creation of any certificates until you have at least one Issuer in place.
