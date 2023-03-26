@@ -78,6 +78,9 @@ Only now, can you successfully deploy your NGINX Ingress Controller instance, as
 
 Your previous `watch` command will reveal further objects as your Ingress Controller comes online.
 
+
+# TODO this is where I got to, think I did not run the "adm policy add-scc-to-user" lines so controller pod hung, check logs
+
 ## Install cert-manager
 From the OperatorHub.
 - Search for "cert-manager" then click the "cert-manager (Community)" tile
