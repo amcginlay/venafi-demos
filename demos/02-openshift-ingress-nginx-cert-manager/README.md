@@ -62,7 +62,7 @@ watch "oc -n openshift-operators get pod,svc"
 ## Deploy NGINX Ingress Controller instance
 
 When installing NGINX Ingress via the OperatorHub **you do not immediately get an Ingress Controller instance**, just the means to deploy one.
-OpenShift employs a strict security posture which, by default, would prevent you from completing the controller deployment step.
+OpenShift employs a strict security posture which, by default, would prevent you from completing the deployment.
 
 The following commands will address this restriction.
 ```
