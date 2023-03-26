@@ -30,8 +30,8 @@ We assume your AWS resources are hosted in the **eu-west-2** region.
 
 These instructions depend upon content from this directory so `git clone` this repo and `cd` as appropriate.
 
-### Check connectivity
-Check connectivity via the CLI as follows, navigate to the console URL produced and login as kubeadmin.
+### Check CLI/Console connectivity
+Check connectivity via the CLI, navigate to the console URL produced and login as kubeadmin.
 ```
 oc -n openshift-console get routes console -o=jsonpath="{range}{'https://'}{.spec.host}{'\n'}{end}"
 ```
