@@ -26,8 +26,6 @@ That's where cert-manager and Let's Encrypt come in.
 - Access to a running Openshift cluster via `oc` and the console
 - Full control of your own domain (or subdomain) surfaced as a **hosted zone** in AWS Route53.
 
-We assume your AWS resources are hosted in the **eu-west-2** region.
-
 These instructions depend upon content from this directory so `git clone` this repo and `cd` as appropriate.
 
 ### Check CLI/Console connectivity
