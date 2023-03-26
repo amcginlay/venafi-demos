@@ -37,7 +37,8 @@ oc -n openshift-console get routes console -o=jsonpath="{range}{'https://'}{.spe
 Henceforth we will refer to this URL location as https://your-console/.
 
 ## The OpenShift OperatorHub
-The preferred way to extend OpenShift's capabilities is via the console using OperatorHub.
+The preferred package manager for OpenShift is OperatorHub which is accessible via the console.
+When possible, the OperatorHub should be used in preference to traditional Kubernetes tools like Helm.
 
 The OperatorHub is available here https://your-console/operatorhub/all-namespaces
 
