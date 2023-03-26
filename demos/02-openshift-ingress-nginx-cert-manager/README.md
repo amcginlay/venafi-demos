@@ -58,8 +58,10 @@ If you wish to watch the nginx-ingress workloads and services as they come onlin
 watch "oc -n openshift-operators get pod,svc"
 ```
 
-**NOTE**: when installing NGINX Ingress via the OperatorHub **you do not immediately get an Ingress Controller**, just the means to deploy one.
-OpenShift employs has a strict security posture which, as it stands, would prevent us completing that deployment.
+## Deploy NGINX Ingress Controller instance
+
+When installing NGINX Ingress via the OperatorHub **you do not immediately get an Ingress Controller instance**, just the means to deploy one.
+OpenShift employs has a strict security posture which, as it stands, would prevent us from completing the deployment step.
 
 The following commands will address this restriction.
 ```
@@ -77,8 +79,8 @@ Now you can successfully deploy your NGINX Ingress Controller instance, as follo
 - You should **remove this line** to ensure a successful installation
 - Click "Create"
 
-Your previous `watch` command will reveal additional workloads and services as your Ingress Controller comes online.
-You will observe your new service is of type LoadBalancer, with the EXTERNAL-IP column identifying the associated AWS Load Balancer.
+Your previous `watch` command will reveal additional workloads and services as your Ingress Controller instance comes online.
+You will observe your new service object is of type LoadBalancer, with the EXTERNAL-IP column identifying the associated AWS Load Balancer.
 
 ## Install cert-manager
 From the OperatorHub.
