@@ -110,9 +110,9 @@ Start by setting variables to represent the DNS record name you wish to target.
 ```bash
 hosted_zone=venafi.mcginlay.net   # IMPORTANT - adjust as appropriate
 record_subdomain_name=www$(date +"%d") # e.g. www01 - where the digits indicate the day of the month (for testing)
-export dns_record_name=${record_subdomain_name}.${hosted_zone}
+export DNS_RECORD_NAME=${record_subdomain_name}.${hosted_zone}
 echo
-echo "TODO: Route53 ALIAS required between DNS record ${dns_record_name}" and ${elb_dnsname}
+echo "TODO: Route53 ALIAS required between DNS record ${DNS_RECORD_NAME}" and ${elb_dnsname}
 ```
 
 Head over to https://console.aws.amazon.com/route53/v2/hostedzones and create your new DNS record in your hosted zone as shown below.
@@ -122,10 +122,10 @@ Head over to https://console.aws.amazon.com/route53/v2/hostedzones and create yo
 Once the DNS record has propagated, the new endpoint will also respond with the familiar "404" status page from `nginx`.
 Wait for this to happen before continuing.
 ```bash
-curl -L http://${dns_record_name}
+curl -L http://${DNS_RECORD_NAME}
 ```
 
-## Your goal (checkpoint)
+## Your goal (checkpoint 1)
 The following diagram illustrates your progress towards the goal of this exercise.
 
 ![title](images/nginx-tls-os-partial-1.png)
@@ -182,9 +182,107 @@ oc new-app https://github.com/amcginlay/openshift-test
 ```
 
 Note: `oc new-app` automatically creates a ClusterIP service for your workload.
-`oc expose` can create a publicly accessible route via Openshift's default ingress controller but you want your NGINX Ingress Controller to take on this responsibility.
+`oc expose` can create a publicly accessible route via Openshift's default ingress controller but you want your NGINX Ingress Controller to take on this responsibility via an Ingress rule.
 
-# TODO got this far, ALL GOOD!
+## Your goal (checkpoint 2)
+The following diagram illustrates your progress towards the goal of this exercise.
+
+![title](images/nginx-tls-os-partial-2.png)
+
+## Creating an Ingress rule
+
+As mentioned, your NGINX Ingress Controller instance is not currently loaded with any routing rules, hence the "404" responses we currently see via the load balancer.
+Outside the world of OpenShift and Kubernetes, "vanilla" NGINX would source its rules from a config file (`nginx.conf`).
+NGINX Ingress Controller instances works the same, except the controller component ingests Ingress objects and codifies them into config file modifications on your behalf.
+
+As you create your first Ingress object, observe the use of the `ingressClassName` attribute which associates your Ingress rule with a specific variant of Ingress controller (`nginx`), and the `cert-manager.io/issuer` annotation which associates your rule with your Issuer object (`letsencrypt`).
+```bash
+export CERTIFICATE=$(tr \. - <<< ${DNS_RECORD_NAME})-tls
+
+envsubst <<EOF | oc -n demos apply -f -
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: demo-ingress
+  annotations:
+    cert-manager.io/issuer: "letsencrypt" # TLS requirement - enables cert-manager
+spec:
+  ingressClassName: nginx                 # instruct NGINX Ingress controller to ingest this Ingress object
+  tls:                                    # TLS requirement
+  - hosts:                                # TLS requirement
+    - ${DNS_RECORD_NAME}                  # TLS requirement - domain name(s) to secure
+    secretName: ${CERTIFICATE}            # TLS requirement - certificate stored here
+  rules:
+  - host: ${DNS_RECORD_NAME}
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: demo-app
+            port:
+              number: 8080
+EOF
+```
+
+You can observe your ingress object as follows.
+Note that this supports traffic on port 443 (HTTPS).
+```bash
+kubectl -n demos get ingress openshift-test
+```
+
+Your ELB will now **securely** route all traffic via HTTPS to your demo workload.
+```bash
+curl -Ls https://${DNS_RECORD_NAME}
+```
+
+At this point you can navigate to the `${DNS_RECORD_NAME}` URL in any browser and you will see padlock icons without warnings meaning HTTPS is enforced and working.
+By observing the output in a browser you can also determine that the request your workload received was plain old HTTP.
+This means nginx done its job - it has routed traffic from the ELB to your workload, meanwhile providing a transparent termination point for the TLS encryption.
+
+## So, what just happened?
+
+cert-manager is aware of Ingress objects.
+
+It deduced from your Ingress object that traffic to `openshift-test` is intended to be secured by Let's Encrypt and silently built a cert-manager Certificate object to represent that requirement.
+The presence of that Certificate object triggers a sequence of events in cert-manager which ultimately causes a new [TLS secret](https://kubernetes.io/docs/concepts/configuration/secret/#tls-secrets) to be deposited in the demos namespace.
+This, in turn, causes the NGINX Ingress controller to update the NGINX config file and perform a soft-reset of NGINX workload.
+
+# TODO from here ^^^^
+
+causes a CertificateRequest (CR) object to be issued by cert-manager.
+Each CR that is successfully fulfilled causes the associated certificate to become paired with a secret object containing the key material returned from the CA.
+
+You can view the paired objects as follows.
+```bash
+kubectl -n demos get certificate ${certificate}
+kubectl -n demos describe secret ${certificate} | tail -4
+```
+
+The data items in the secrets are base64 encoded.
+If you wish, you can use `openssl` to see the certificate material in its more natural form.
+```bash
+kubectl -n demos get secret ${certificate} -o 'go-template={{index .data "tls.crt"}}' | base64 --decode | openssl x509 -noout -text | head -11
+```
+
+As expected for an ingress controller, ingress-nginx is also aware of ingress objects.
+
+With the secret containing a certificate now in place, ingress-nginx rewrites the nginx config file and signals nginx to reload, securely activating the route(s) to your workload.
+
+## The case for Venafi TLS Protect For Kubernetes
+
+So now you know about `cert-manager`, what next?
+Venafi TLS Protect For Kubernetes includes an enterprise-hardened version of `cert-manager` along with a number of machine identity management capabilities needed to support Kubernetes machine identities on an enterprise-basis.
+
+So look out for more demos in the future, revealing what else is possible.
+
+This chapter is complete.
+
+
+
+
+
 
 <!--
 cert-manager is unable to oversee the creation of any certificates until you have at least one Issuer in place.
