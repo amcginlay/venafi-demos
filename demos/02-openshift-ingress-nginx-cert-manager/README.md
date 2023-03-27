@@ -83,9 +83,10 @@ Now you can successfully deploy your NGINX Ingress Controller instance, as follo
 Your previous `watch` command will reveal additional workloads and services as your Ingress Controller instance comes online.
 You will observe your new service object is of type LoadBalancer, with the EXTERNAL-IP column identifying the associated AWS Load Balancer.
 
-After a 2-3 mins the load balancer will begin returning "404 Not Found" responses. This is the expected response as there are no routing rules in place yet.
+After 2-3 mins the load balancer will begin returning "404 Not Found" responses.
+This is the expected response since no Ingress rules have been applied to NGINX yet.
 ```
-elb_dnsname=$(kubectl -n ingress-nginx get service ingress-nginx-controller -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+elb_dnsname=$(oc -n nginx-ingress get service nginxingress-sample-nginx-ingress -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
 curl -L http://${elb_dnsname}
 ```
 
@@ -106,9 +107,7 @@ hosted_zone=jetstack.venafi.net   # IMPORTANT - adjust as appropriate
 record_subdomain_name=www$(date +"%d") # e.g. www01 - where the digits indicate the day of the month (for testing)
 export dns_record_name=${record_subdomain_name}.${hosted_zone}
 echo
-echo "------------------------------------------------------------------"
-echo "The DNS record you will now create is: ${dns_record_name}"
-echo "------------------------------------------------------------------"
+echo "TODO: Route53 ALIAS required between DNS record ${dns_record_name}" and ${elb_dnsname}
 ```
 
 Head over to https://console.aws.amazon.com/route53/v2/hostedzones and create your new DNS record in your hosted zone as shown below.
@@ -120,8 +119,6 @@ Wait for this to happen before continuing.
 ```bash
 curl -L http://${dns_record_name}
 ```
-
-Let's deal with that 404 response.
 
 ## Install cert-manager
 From the OperatorHub.
