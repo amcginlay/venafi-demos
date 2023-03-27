@@ -173,9 +173,9 @@ oc describe clusterissuer letsencrypt | grep Message
 
 ## Deploy app
 One major difference between opinionated platforms like OpenShift and regular Kubernetes is the way they handle container images.
-Kubernetes insists upon consuming ready-made container images whereas OpenShift will, when necessary, build container images directly for source code as part of the deployment process.
+Kubernetes insists upon consuming ready-made container images whereas OpenShift typically builds container images directly from source code as part of its deployment process.
 
-To stand up a demo application which you will go on to secure, run the following.
+To build and deploy a demo application which you will go on to secure, run the following.
 ```
 oc new-project demos
 oc new-app https://github.com/amcginlay/openshift-test
