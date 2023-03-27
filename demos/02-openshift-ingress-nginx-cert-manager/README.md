@@ -151,7 +151,7 @@ cert-manager is unable to oversee the creation of any certificates until you hav
 The simplest way to create the publicly trusted certificates you require is via [Let's Encrypt](https://letsencrypt.org/), so go ahead and set up a cluster-wide issuer for that.
 ```
 export EMAIL=jbloggs@gmail.com # <-- change this to suit
-envsubst < clusterissuer.yaml.template | oc apply -f -
+envsubst < clusterissuer.yaml.template | tee /dev/tty | oc apply -f -
 ```
 
 Check on the status of the issuer after you've created it
@@ -193,33 +193,7 @@ NGINX Ingress Controller instances works the same, except the controller compone
 As you create your first Ingress object, observe the use of the `ingressClassName` attribute which associates your Ingress rule with a specific variant of Ingress controller (`nginx`), and the `cert-manager.io/issuer` annotation which associates your rule with your Issuer object (`letsencrypt`).
 ```bash
 export TLS_SECRET=$(tr \. - <<< ${DNS_RECORD_NAME})-tls
-
-envsubst <<EOF | oc -n demos apply -f -
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: openshift-test
-  annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt"     # TLS requirement - enables cert-manager
-    acme.cert-manager.io/http01-edit-in-place: "true" # https://stackoverflow.com/questions/65096183
-spec:
-  ingressClassName: nginx                 # instruct NGINX Ingress controller to ingest this Ingress object
-  tls:                                    # TLS requirement
-  - hosts:                                # TLS requirement
-    - ${DNS_RECORD_NAME}                  # TLS requirement - domain name(s) to secure
-    secretName: ${TLS_SECRET}             # TLS requirement - X.509 certificate stored here as a TLS Secret
-  rules:
-  - host: ${DNS_RECORD_NAME}
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: openshift-test
-            port:
-              number: 8080
-EOF
+envsubst < ingress.yaml.template | tee /dev/tty | oc -n demos apply -f -
 ```
 
 You can observe your Ingress object as follows.
