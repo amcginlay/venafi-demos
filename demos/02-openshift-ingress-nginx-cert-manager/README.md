@@ -290,11 +290,13 @@ So look out for more demos like this, revealing how effective machine identity m
 This chapter is complete.
 
 ## Rollback
+- delete Route53 ALIAS
 - `oc delete project demos`
 - `oc delete clusterissuer letsencrypt`
 - OperatorHub
   - Uninstall "cert-manager"
   - Delete "nginxingress-sample" controller instance
   - Uninstall "NGINX Ingress Operator"
+- `oc patch OperatorHub cluster --type json -p '[{"op": "add", "path": "/spec/disableAllDefaultSources", "value": false}]'`
 
 Next: [Main Menu](/README.md) | [Openshift with ingress-nginx and cert-manager](../02-openshift-ingress-nginx-cert-manager/README.md)
