@@ -249,7 +249,7 @@ curl -Ls https://${DNS_RECORD_NAME}
 
 At this point you can navigate to the `${DNS_RECORD_NAME}` URL in any browser and you will see padlock icons without warnings.
 This means your workload is protected by a publicly trusted X.509 certificate.
-By observing the output in a browser you can also determine that the request your workload received was plain old HTTP.
+By observing the output you can also determine that the request your workload received was plain old HTTP.
 This means NGINX done its job - it has routed traffic from the ELB to your workload whilst providing a transparent termination point for the TLS encryption.
 
 ## Goal complete (recap)
