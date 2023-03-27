@@ -83,6 +83,40 @@ Now you can successfully deploy your NGINX Ingress Controller instance, as follo
 Your previous `watch` command will reveal additional workloads and services as your Ingress Controller instance comes online.
 You will observe your new service object is of type LoadBalancer, with the EXTERNAL-IP column identifying the associated AWS Load Balancer.
 
+## Configure Route53
+
+NOTE if you wish to complete this section using the AWS CLI, check out the necessary steps detailed in the [addendum](./addendum/README.md).
+
+To pair your own web domain with an AWS load balancer you will need full control of the appropriate **hosted zone** in a public DNS service.
+These instructions assume that service is AWS Route53.
+
+The following section details the assignment of a new Route53 ALIAS record to your domain (or subdomain) which can route traffic to the ELB you created previously.
+
+NOTE using day of the month in the DNS record (below) is a simplistic way to test out your solution using **production-strength** certificates whilst navigating the CA's [Duplicate Certificate Limit](https://letsencrypt.org/docs/duplicate-certificate-limit/).
+
+Start by setting variables to represent the DNS record name you wish to target.
+```bash
+hosted_zone=jetstack.mcginlay.net   # IMPORTANT - adjust as appropriate
+record_subdomain_name=www$(date +"%d") # e.g. www01 - where the digits indicate the day of the month (for testing)
+export dns_record_name=${record_subdomain_name}.${hosted_zone}
+echo
+echo "------------------------------------------------------------------"
+echo "The DNS record you will now create is: ${dns_record_name}"
+echo "------------------------------------------------------------------"
+```
+
+Head over to https://console.aws.amazon.com/route53/v2/hostedzones and create your new DNS record in your hosted zone as shown below.
+
+![title](images/route53.png)
+
+Once the DNS record has propagated, the new endpoint will also respond with the familiar "404" status page from `nginx`.
+Wait for this to happen before continuing.
+```bash
+curl -L http://${dns_record_name}
+```
+
+Let's deal with that 404 response.
+
 ## Install cert-manager
 From the OperatorHub.
 - Search for "cert-manager" then click the "cert-manager (Community)" tile
