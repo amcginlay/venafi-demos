@@ -68,10 +68,9 @@ watch oc -n openshift-operators get pod,svc
 When installing NGINX Ingress via the OperatorHub **you do not immediately get an Ingress Controller instance**, just the means to deploy one.
 OpenShift employs a strict security posture which, by default, would prevent you from completing the deployment.
 
-The following commands will address this restriction.
+The following command will address this restriction.
 ```
-oc -n nginx-ingress adm policy add-scc-to-user -z nginx-ingress anyuid
-oc -n nginx-ingress adm policy add-scc-to-user -z nginx-ingress privileged
+oc -n nginx-ingress adm policy add-scc-to-user -z nginx-ingress anyuid privileged
 ```
 
 Now you can successfully deploy your NGINX Ingress Controller instance, as follows.
