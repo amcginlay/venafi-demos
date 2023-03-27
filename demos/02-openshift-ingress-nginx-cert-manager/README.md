@@ -1,11 +1,11 @@
-# Openshift with NGINX Ingress Operator and cert-manager
+# OpenShift with NGINX Ingress Operator and cert-manager
 
-If you're using Openshift on AWS, what are the minimum steps required to secure a public-facing workload using cert-manager and the NGINX Ingress Operator?
+If you're using OpenShift on AWS, what are the minimum steps required to secure a public-facing workload using cert-manager and the NGINX Ingress Operator?
 This demo attempts to answer that question.
 
 ## Introduction
-Your goal here is to enforce secure TLS communication between any browser on the internet and a single containerized workload running in Openshift hosted on AWS.
-Much like regular Kubernetes clusters hosted on public cloud providers, Openshift supports safely exposing your workloads to the internet via load balancers.
+Your goal here is to enforce secure TLS communication between any browser on the internet and a single containerized workload running in OpenShift hosted on AWS.
+Much like regular Kubernetes clusters hosted on public cloud providers, OpenShift supports safely exposing your workloads to the internet via load balancers.
 
 In this scenario, the browser will expect HTTPS (which implies TLS) but the workload itself only supports HTTP.
 
@@ -13,7 +13,7 @@ We can implement a reverse proxy solution by positioning an nginx instance betwe
 The nginx instance can then be loaded with publicly trusted X.509 certificates making it responsible for TLS termination.
 To clarify, this means traffic touching the internet is HTTPS whilst traffic touching the workload is plain old HTTP.
 
-The NGINX Ingress Operator is a packaged version of nginx for deployment inside Openshift clusters via the OperatorHub.
+The NGINX Ingress Operator is a packaged version of nginx for deployment inside OpenShift clusters via the OperatorHub.
 Instead of having to edit nginx configuration files by hand, NGINX Ingress supports declarative configuration via Kubernetes Ingress objects.
 Those Ingress objects can reference certificates stored as Kubernetes secrets.
 On its own, NGINX Ingress is unable to create certificates or renew them before they expire.
@@ -26,7 +26,7 @@ The following diagram illustrates the goal of this exercise.
 
 ## Prerequisites
 - The necessary client tools installed
-- Access to a running Openshift cluster via `oc` and the console
+- Access to a running OpenShift cluster via `oc` and the console
 - Full control of your own domain (or subdomain) surfaced as a **hosted zone** in AWS Route53.
 
 These instructions depend upon content from this directory so `git clone` this repo and `cd` as appropriate.
@@ -85,7 +85,7 @@ Now you can successfully deploy your NGINX Ingress Controller instance, as follo
 
 NOTE in the interests of simplicity, these instructions omit the pre-provision of the `default-server-secret`, instead choosing to focus on securing specific routes.
 
-Your previous `watch` command will reveal additional workloads and services as your Ingress Controller instance comes online.
+Your previous `watch` command will reveal additional workloads and services as your NGINX Ingress Controller instance comes online.
 You will observe your new service object is of type LoadBalancer, with the EXTERNAL-IP column identifying the associated AWS Load Balancer.
 
 After 2-3 mins the load balancer will begin returning "404 Not Found" responses.
@@ -171,9 +171,18 @@ Check on the status of the issuer after you've created it
 oc describe clusterissuer letsencrypt | grep Message
 ```
 
+## Deploy app
+One major difference between opinionated Platform as a Service (PaaS) offerings like OpenShift and regular Kubernetes is that the latter insists upon consuming ready-made container images.
+OpenShift will, when necessary, build container images as part of the deployment process.
 
+To stand up a demo application which you will go on to secure, run the following.
+``````
+oc new-project demos
+oc new-app https://github.com/amcginlay/openshift-test
+```
 
-
+Note: `oc new-app` automatically creates a ClusterIP service for your workload.
+`oc expose` can create a publicly accessible route via Openshift's default ingress controller but you want your NGINX Ingress Controller to take on this responsibility.
 
 # TODO got this far, ALL GOOD!
 
