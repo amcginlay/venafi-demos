@@ -116,7 +116,7 @@ Start by setting variables to represent the DNS record name you wish to target.
 hosted_zone=venafi.mcginlay.net   # IMPORTANT - adjust as appropriate
 record_subdomain_name=www$(date +"%d") # e.g. www01 - where the digits indicate the day of the month (for testing)
 export DNS_RECORD_NAME=${record_subdomain_name}.${hosted_zone}
-echo "MANUAL STEP: Route53 ALIAS required between DNS record ${DNS_RECORD_NAME}" and ELB ${elb_dnsname}
+echo "MANUAL STEP: Route53 ALIAS required between DNS record ${DNS_RECORD_NAME} and ELB ${elb_dnsname}"
 ```
 
 Head over to https://console.aws.amazon.com/route53/v2/hostedzones and create your new DNS record in your hosted zone as shown below.
