@@ -87,7 +87,7 @@ Now you can successfully deploy your NGINX Ingress Controller instance, as follo
 NOTE in the interests of simplicity, these instructions omit the pre-provision of the `default-server-secret`, instead choosing to focus on securing specific routes.
 
 Your previous `watch` command will reveal additional workloads and services as your NGINX Ingress Controller instance comes online.
-You will observe your new service object is of type LoadBalancer, with the EXTERNAL-IP column identifying the associated AWS Load Balancer.
+You will observe your new service object is of type LoadBalancer, with the EXTERNAL-IP column identifying the associated AWS load balancer.
 
 After 2-3 mins the load balancer will begin returning "404 Not Found" responses.
 This is the expected response since no Ingress rules have been applied to NGINX yet.
@@ -95,6 +95,8 @@ This is the expected response since no Ingress rules have been applied to NGINX 
 elb_dnsname=$(oc -n nginx-ingress get service nginxingress-sample-nginx-ingress -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
 curl -L http://${elb_dnsname}
 ```
+
+Wait for a response from the load balancer before continuing.
 
 ## Configure Route53
 
