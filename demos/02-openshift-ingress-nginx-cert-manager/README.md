@@ -77,7 +77,7 @@ oc -n nginx-ingress adm policy add-scc-to-user -z nginx-ingress privileged
 Now you can successfully deploy your NGINX Ingress Controller instance.
 
 From the **OperatorHub**.
-- From the console's navigaton panel, under "Operators", select "Installed Operators"
+- In the console's navigaton panel, under "Operators", select "Installed Operators"
 - Ensure that the "Project" dropdown reads "All Projects"
 - Locate the "Nginx Ingress Operator" entry and, under the column named "Provided APIs", click "Nginx Ingress Controller"
 - Click "Create NginxIngress"
