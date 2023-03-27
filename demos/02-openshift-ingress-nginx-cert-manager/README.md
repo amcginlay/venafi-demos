@@ -172,8 +172,8 @@ oc describe clusterissuer letsencrypt | grep Message
 ```
 
 ## Deploy app
-One major difference between opinionated Platform as a Service (PaaS) offerings like OpenShift and regular Kubernetes is that the latter insists upon consuming ready-made container images.
-OpenShift will, when necessary, build container images as part of the deployment process.
+One major difference between opinionated platforms like OpenShift and regular Kubernetes is the way they handle container images.
+Kubernetes insists upon consuming ready-made container images whereas OpenShift will, when necessary, build container images directly for source code as part of the deployment process.
 
 To stand up a demo application which you will go on to secure, run the following.
 ```
