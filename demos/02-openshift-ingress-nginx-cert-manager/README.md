@@ -285,7 +285,7 @@ With the TLS Secret now in place, the Controller instance rewrites the NGINX con
 So now you know about cert-manager, what next?
 Venafi TLS Protect For Kubernetes includes an enterprise-hardened version of cert-manager along with a number of machine identity management capabilities needed to support Kubernetes machine identities in the Enterprise.
 
-So look out for more demos like this, revealing what else is possible with Venafi products.
+So look out for more demos like this, revealing what else is possible with Venafi's products.
 
 This chapter is complete.
 
