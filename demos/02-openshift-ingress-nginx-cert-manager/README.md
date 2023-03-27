@@ -87,7 +87,7 @@ Now you can successfully deploy your NGINX Ingress Controller instance, as follo
 NOTE in the interests of simplicity, these instructions omit the pre-provision of the `default-server-secret`, instead choosing to focus on securing specific routes.
 
 Your previous `watch` command will reveal additional workloads and services as your NGINX Ingress Controller instance comes online.
-You will observe your new service object is of type LoadBalancer, with the EXTERNAL-IP column identifying the associated AWS load balancer.
+You will observe your new service object is of type **LoadBalancer**, with the EXTERNAL-IP column identifying the associated AWS load balancer.
 
 After 2-3 mins the load balancer will begin returning "404 Not Found" responses.
 This is the expected response since no Ingress rules have been applied to NGINX yet.
@@ -105,7 +105,7 @@ NOTE if you wish to complete this section using the AWS CLI, check out the neces
 To pair your own web domain with an AWS load balancer you will need full control of the appropriate **hosted zone** in a public DNS service.
 These instructions assume that service is AWS Route53.
 
-The following section details the assignment of a new Route53 ALIAS record to your domain (or subdomain) which can route traffic to the ELB you created previously.
+The following section details the assignment of a new Route53 ALIAS record to your domain (or subdomain) which can route traffic to the load balancer you created previously.
 
 NOTE using day of the month in the DNS record (below) is a simplistic way to test out your solution using **production-strength** certificates whilst navigating the CA's [Duplicate Certificate Limit](https://letsencrypt.org/docs/duplicate-certificate-limit/).
 
