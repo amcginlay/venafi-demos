@@ -19,6 +19,8 @@ Those Ingress objects can reference certificates stored as Kubernetes secrets.
 On its own, NGINX Ingress is unable to create certificates or renew them before they expire.
 That's where cert-manager and Let's Encrypt come in.
 
+The following diagram illustrates the goal of this exercise.
+
 ![title](images/nginx-tls-os.png)
 
 ## Prerequisites
@@ -119,6 +121,8 @@ Wait for this to happen before continuing.
 ```bash
 curl -L http://${dns_record_name}
 ```
+
+The following diagram illustrates your progress towards the goal of this exercise.
 
 ![title](images/nginx-tls-os-partial-1.png)
 
