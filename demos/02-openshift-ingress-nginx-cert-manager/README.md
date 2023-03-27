@@ -5,7 +5,7 @@ This demo attempts to answer a question you may encounter in the enterprise.
 Specifically, if you're using AWS, OpenShift, NGINX Ingress and cert-manager, what are the minimum steps required to secure a public-facing workload?
 
 ## Introduction
-Your goal here is to enforce secure TLS communication between any browser on the internet and a single containerized workload running in OpenShift hosted on AWS.
+Your goal here is to enforce secure TLS communication between any browser on the internet and a single containerized workload running in an OpenShift cluster hosted on AWS.
 Much like regular Kubernetes clusters hosted on public cloud providers, OpenShift supports safely exposing your workloads to the internet via load balancers.
 
 In this scenario, the browser will expect HTTPS (which implies TLS) but the workload itself only supports HTTP.
