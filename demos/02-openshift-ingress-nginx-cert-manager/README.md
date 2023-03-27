@@ -10,7 +10,7 @@ Much like regular Kubernetes clusters hosted on public cloud providers, OpenShif
 
 In this scenario, your browser will expect HTTPS (which implies TLS) but your workload only supports HTTP.
 
-We can implement a reverse proxy solution by positioning an nginx instance between an internet-facing load balancer (AWS ELB) and the HTTP workload.
+We can implement a reverse proxy solution by positioning an NGINX instance between an internet-facing load balancer (AWS ELB) and the HTTP workload.
 The nginx instance can then be loaded with publicly trusted X.509 certificates, making it responsible for TLS termination.
 To clarify, this means traffic touching the internet is HTTPS whilst traffic touching the workload is plain old HTTP.
 
