@@ -297,8 +297,8 @@ This chapter is complete.
   - Uninstall "cert-manager"
   - Delete "nginxingress-sample" controller instance
   - Uninstall "NGINX Ingress Operator"
-- `oc -n nginx-ingress adm policy add-scc-to-user -z nginx-ingress anyuid`
-- `oc -n nginx-ingress adm policy add-scc-to-user -z nginx-ingress privileged`
+- `oc -n nginx-ingress adm policy remove-scc-from-user -z nginx-ingress anyuid`
+- `oc -n nginx-ingress adm policy remove-scc-from-user -z nginx-ingress privileged`
 - `oc patch OperatorHub cluster --type json -p '[{"op": "add", "path": "/spec/disableAllDefaultSources", "value": true}]'`
 
 Next: [Main Menu](/README.md) | [Openshift with ingress-nginx and cert-manager](../02-openshift-ingress-nginx-cert-manager/README.md)
