@@ -1,8 +1,8 @@
 # OpenShift with NGINX Ingress Operator and cert-manager
 
-This demo attempts to answer a question.
+This demo attempts to answer a question that you may encounter in the enterprise.
 
-Specifically, if you're using OpenShift on AWS, what are the minimum steps required to secure a public-facing workload using cert-manager and the NGINX Ingress Operator?
+Specifically, if you're using AWS, OpenShift, NGINX Ingress Operator and cert-manager, what are the minimum steps required to secure a public-facing workload?
 
 ## Introduction
 Your goal here is to enforce secure TLS communication between any browser on the internet and a single containerized workload running in OpenShift hosted on AWS.
