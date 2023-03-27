@@ -8,7 +8,7 @@ Specifically, if you're using AWS, OpenShift, NGINX Ingress and cert-manager, wh
 Your goal here is to enforce secure TLS communication between any browser on the internet and a single containerized workload running in an OpenShift cluster hosted on AWS.
 Much like regular Kubernetes clusters hosted on public cloud providers, OpenShift supports safely exposing your workloads to the internet via load balancers.
 
-In this scenario, the browser will expect HTTPS (which implies TLS) but the workload itself only supports HTTP.
+In this scenario, your browser will expect HTTPS (which implies TLS) but your workload only supports HTTP.
 
 We can implement a reverse proxy solution by positioning an nginx instance between an internet-facing load balancer (AWS ELB) and the HTTP workload.
 The nginx instance can then be loaded with publicly trusted X.509 certificates, making it responsible for TLS termination.
