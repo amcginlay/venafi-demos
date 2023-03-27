@@ -239,7 +239,7 @@ EOF
 You can observe your Ingress object as follows.
 Note that this supports traffic on port 443 (HTTPS).
 ```bash
-kubectl -n demos get ingress openshift-test
+oc -n demos get ingress openshift-test
 ```
 
 Your ELB will now **securely** route all traffic via HTTPS to your demo workload.
@@ -266,14 +266,14 @@ The presence of that Certificate object triggers a sequence of events in cert-ma
 
 You can view the Certificate and Secret pairs as follows.
 ```bash
-kubectl -n demos get certificate ${certificate}
-kubectl -n demos describe secret ${certificate} | tail -4
+oc -n demos get certificate ${certificate}
+oc -n demos describe secret ${certificate} | tail -4
 ```
 
 The data items in the Secret are base64 encoded.
 If you wish, you can use OpenSSL to see the certificate material in its more natural form.
 ```bash
-kubectl -n demos get secret ${certificate} -o 'go-template={{index .data "tls.crt"}}' | base64 --decode | openssl x509 -noout -text | head -11
+oc -n demos get secret ${certificate} -o 'go-template={{index .data "tls.crt"}}' | base64 --decode | openssl x509 -noout -text | head -11
 ```
 
 As expected for an Ingress controller, your NGINX Ingress Controller instance is also aware of Ingress objects.
