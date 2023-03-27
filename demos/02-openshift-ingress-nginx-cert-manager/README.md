@@ -120,6 +120,8 @@ Wait for this to happen before continuing.
 curl -L http://${dns_record_name}
 ```
 
+![title](images/nginx-tls-os-partial-1.png)
+
 ## Install cert-manager
 From the OperatorHub.
 - Search for "cert-manager" then click the "cert-manager (Community)" tile
