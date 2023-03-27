@@ -38,7 +38,7 @@ Check connectivity via the **CLI**, navigate to the **Console** URL produced and
 oc -n openshift-console get routes console -o=jsonpath="{range}{'https://'}{.spec.host}{'\n'}{end}"
 ```
 
-Henceforth we will refer to this URL location as https://your-console/.
+<!-- Henceforth we will refer to this URL location as https://your-console/. -->
 
 ## The OpenShift OperatorHub
 The preferred package manager for OpenShift is OperatorHub which is accessible via the console.
