@@ -70,7 +70,8 @@ OpenShift employs a strict security posture which, by default, would prevent you
 
 The following command will address this restriction.
 ```
-oc -n nginx-ingress adm policy add-scc-to-user -z nginx-ingress anyuid privileged
+oc -n nginx-ingress adm policy add-scc-to-user -z nginx-ingress anyuid
+oc -n nginx-ingress adm policy add-scc-to-user -z nginx-ingress privileged
 ```
 
 Now you can successfully deploy your NGINX Ingress Controller instance, as follows.
@@ -296,7 +297,8 @@ This chapter is complete.
   - Uninstall "cert-manager"
   - Delete "nginxingress-sample" controller instance
   - Uninstall "NGINX Ingress Operator"
-- `oc -n nginx-ingress adm policy remove-scc-from-user -z nginx-ingress anyuid privileged`
+- `oc -n nginx-ingress adm policy remove-scc-from-user -z nginx-ingress anyuid`
+- `oc -n nginx-ingress adm policy remove-scc-from-user -z nginx-ingress privileged`
 - `oc patch OperatorHub cluster --type json -p '[{"op": "add", "path": "/spec/disableAllDefaultSources", "value": true}]'`
 
 Next: [Main Menu](/README.md) | [Openshift with ingress-nginx and cert-manager](../02-openshift-ingress-nginx-cert-manager/README.md)
