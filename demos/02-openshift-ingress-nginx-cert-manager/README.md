@@ -79,9 +79,11 @@ Now you can successfully deploy your NGINX Ingress Controller instance, as follo
 - Locate the "Nginx Ingress Operator" entry and, under the column named "Provided APIs", click "Nginx Ingress Controller"
 - Click "Create NginxIngress"
 - Select YAML view
-- At about line 31 in the YAML manifest, you should see `secret: nginx-ingress/default-server-secret`
+- At about line 31 in the YAML manifest, you should see `secret: nginx-ingress/default-server-secret` (see NOTE below)
 - You should **remove this line** to ensure a successful installation
 - Click "Create"
+
+NOTE in the interests of simplicity, these instructions omit the pre-provision of the `default-server-secret`, instead choosing to focus on securing specific routes.
 
 Your previous `watch` command will reveal additional workloads and services as your Ingress Controller instance comes online.
 You will observe your new service object is of type LoadBalancer, with the EXTERNAL-IP column identifying the associated AWS Load Balancer.
