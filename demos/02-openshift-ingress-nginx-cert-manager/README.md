@@ -59,7 +59,7 @@ From the OperatorHub.
 
 If you wish to watch the nginx-ingress workloads and services as they come online, set up a watch command with the CLI as follows.
 ```
-watch "oc -n openshift-operators get pod,svc"
+watch oc -n openshift-operators get pod,svc
 ```
 
 ## Deploy NGINX Ingress Controller instance
@@ -137,7 +137,7 @@ From the OperatorHub.
 
 If you wish to watch the cert-manager workloads and services as they come online, set up a watch command with the CLI as follows.
 ```
-watch "oc -n openshift-operators get pod,svc"
+watch oc -n openshift-operators get pod,svc
 ```
 
 The OperatorHub install of cert-manager does not require any patching and automatically deploys the required workloads.
@@ -179,6 +179,11 @@ To build and deploy a demo application which you will go on to secure, run the f
 ```
 oc new-project demos
 oc new-app https://github.com/amcginlay/openshift-test
+```
+
+You can watch your app progress to "deployed" status as follows.
+```
+watch oc status
 ```
 
 Note: `oc new-app` automatically creates a ClusterIP service for your workload.
