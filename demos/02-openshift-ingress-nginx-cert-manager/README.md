@@ -1,4 +1,4 @@
-# OpenShift with NGINX Ingress and cert-manager
+# OpenShift with NGINX Ingress Operator and cert-manager
 
 This demo attempts to answer a question you may encounter in the enterprise.
 
