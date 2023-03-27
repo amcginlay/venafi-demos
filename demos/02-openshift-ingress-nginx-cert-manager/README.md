@@ -54,7 +54,7 @@ oc patch OperatorHub cluster --type json \
 ```
 
 ## Install NGINX Ingress Operator
-From the OperatorHub.
+From the **OperatorHub**.
 - Search for "nginx ingress" then click the "NGINX Ingress Operator" tile
 - Click "Install", accept all default settings and click "Install" once more.
 
@@ -74,7 +74,9 @@ oc -n nginx-ingress adm policy add-scc-to-user -z nginx-ingress anyuid
 oc -n nginx-ingress adm policy add-scc-to-user -z nginx-ingress privileged
 ```
 
-Now you can successfully deploy your NGINX Ingress Controller instance, as follows.
+Now you can successfully deploy your NGINX Ingress Controller instance.
+
+From the **OperatorHub**.
 - From the console's navigaton panel, under "Operators", select "Installed Operators"
 - Ensure that the "Project" dropdown reads "All Projects"
 - Locate the "Nginx Ingress Operator" entry and, under the column named "Provided APIs", click "Nginx Ingress Controller"
@@ -133,7 +135,7 @@ The following diagram illustrates your progress towards the goal of this exercis
 ![title](images/nginx-tls-os-partial-1.png)
 
 ## Install cert-manager
-From the OperatorHub.
+From the **OperatorHub**.
 - Search for "cert-manager" then click the "cert-manager (Community)" tile
 - "Continue" past any warnings, click "Install", accept all default settings and click "Install" once more.
 
