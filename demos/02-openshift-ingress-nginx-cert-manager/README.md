@@ -226,7 +226,7 @@ spec:
 EOF
 ```
 
-You can observe your ingress object as follows.
+You can observe your Ingress object as follows.
 Note that this supports traffic on port 443 (HTTPS).
 ```bash
 kubectl -n demos get ingress openshift-test
@@ -243,92 +243,34 @@ This means nginx done its job - it has routed traffic from the ELB to your workl
 
 ## So, what just happened?
 
-cert-manager is aware of Ingress objects.
+cert-manager is aware of annotated Ingress objects.
 
-It deduced from your Ingress object that traffic to `openshift-test` is intended to be secured by Let's Encrypt and silently built a cert-manager Certificate object to represent that requirement.
-The presence of that Certificate object triggers a sequence of events in cert-manager which ultimately causes a new [TLS secret](https://kubernetes.io/docs/concepts/configuration/secret/#tls-secrets) to be deposited in the demos namespace.
-This, in turn, causes the NGINX Ingress controller to update the NGINX config file and perform a soft-reset of NGINX workload.
+It deduced from this Ingress object that traffic to `openshift-test` is intended to be secured by Let's Encrypt and silently built a cert-manager Certificate object to represent that requirement.
+The presence of that Certificate object triggers a sequence of events in cert-manager which ultimately causes a matching [TLS secret](https://kubernetes.io/docs/concepts/configuration/secret/#tls-secrets) to be deposited in the demos namespace.
 
-# TODO from here ^^^^
-
-causes a CertificateRequest (CR) object to be issued by cert-manager.
-Each CR that is successfully fulfilled causes the associated certificate to become paired with a secret object containing the key material returned from the CA.
-
-You can view the paired objects as follows.
+You can view the Certificate and Secret pairs as follows.
 ```bash
 kubectl -n demos get certificate ${certificate}
 kubectl -n demos describe secret ${certificate} | tail -4
 ```
 
-The data items in the secrets are base64 encoded.
-If you wish, you can use `openssl` to see the certificate material in its more natural form.
+The data items in the Secret are base64 encoded.
+If you wish, you can use OpenSSL to see the certificate material in its more natural form.
 ```bash
 kubectl -n demos get secret ${certificate} -o 'go-template={{index .data "tls.crt"}}' | base64 --decode | openssl x509 -noout -text | head -11
 ```
 
-As expected for an ingress controller, ingress-nginx is also aware of ingress objects.
+As expected for an Ingress controller, your NGINX Ingress Controller instance is also aware of Ingress objects.
 
-With the secret containing a certificate now in place, ingress-nginx rewrites the nginx config file and signals nginx to reload, securely activating the route(s) to your workload.
+With the TLS Secret now in place, the Controller instance rewrites the NGINX config file and signals NGINX to reload, securely activating the route(s) to your workload.
 
 ## The case for Venafi TLS Protect For Kubernetes
 
 So now you know about `cert-manager`, what next?
-Venafi TLS Protect For Kubernetes includes an enterprise-hardened version of `cert-manager` along with a number of machine identity management capabilities needed to support Kubernetes machine identities on an enterprise-basis.
+Venafi TLS Protect For Kubernetes includes an enterprise-hardened version of `cert-manager` along with a number of machine identity management capabilities needed to support Kubernetes machine identities in the Enterprise.
 
-So look out for more demos in the future, revealing what else is possible.
+So look out for more demos, revealing what else is possible.
 
 This chapter is complete.
-
-
-
-
-
-
-<!--
-cert-manager is unable to oversee the creation of any certificates until you have at least one Issuer in place.
-The simplest way to create the publicly trusted certificates you require is via Let's Encrypt, so go ahead and set up a cluster-wide issuer for that now.
-```
-export EMAIL=jbloggs@gmail.com # <-- change this to suit
-envsubst <<EOF | oc apply -f -
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
-  name: letsencrypt
-spec:
-  acme:
-    server: https://acme-v02.api.letsencrypt.org/directory
-    email: ${EMAIL}
-    privateKeySecretRef:
-      name: letsencrypt
-    solvers:
-      - http01:
-          ingress:
-            class:  nginx
-EOF
-```
-
-## Install and configure NGINX Ingress
-The following command will install NGINX Ingress Opertaor via the OperatorHub.
-
-**REDO** just describe this from the UI, THIS must be 100% repeatable 
-
-```
-oc new-project nginx-ingress # <-- TEST ON NEW CLUSTER, SEE IF NECESSARY!
-oc apply -f - <<EOF
-apiVersion: operators.coreos.com/v1alpha1
-kind: Subscription
-metadata:
-  name: nginx-ingress-operator
-  namespace: nginx-ingress
-spec:
-  channel: alpha
-  name: nginx-ingress-operator
-  source: certified-operators
-  sourceNamespace: openshift-marketplace
-EOF
-```
-
-TODO continue from here ...
--->
 
 Next: [Main Menu](/README.md) | [Openshift with ingress-nginx and cert-manager](../02-openshift-ingress-nginx-cert-manager/README.md)
