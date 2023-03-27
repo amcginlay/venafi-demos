@@ -105,7 +105,7 @@ NOTE using day of the month in the DNS record (below) is a simplistic way to tes
 
 Start by setting variables to represent the DNS record name you wish to target.
 ```bash
-hosted_zone=jetstack.venafi.net   # IMPORTANT - adjust as appropriate
+hosted_zone=venafi.mcginlay.net   # IMPORTANT - adjust as appropriate
 record_subdomain_name=www$(date +"%d") # e.g. www01 - where the digits indicate the day of the month (for testing)
 export dns_record_name=${record_subdomain_name}.${hosted_zone}
 echo
