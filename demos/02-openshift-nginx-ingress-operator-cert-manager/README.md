@@ -236,7 +236,7 @@ If you wish, you can use OpenSSL to see the certificate material in its more nat
 oc -n demos get secret ${certificate} -o 'go-template={{index .data "tls.crt"}}' | base64 --decode | openssl x509 -noout -text | head -11
 ```
 
-As expected for an Ingress controller, your NGINX Ingress Controller instance is also aware of Ingress objects.
+As expected, your NGINX Ingress Controller instance is also aware of Ingress objects.
 
 With the TLS Secret now in place, the Controller instance rewrites the NGINX config file and signals NGINX to reload, securely activating the route(s) to your workload.
 
