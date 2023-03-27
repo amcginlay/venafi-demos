@@ -151,23 +151,7 @@ cert-manager is unable to oversee the creation of any certificates until you hav
 The simplest way to create the publicly trusted certificates you require is via [Let's Encrypt](https://letsencrypt.org/), so go ahead and set up a cluster-wide issuer for that.
 ```
 export EMAIL=jbloggs@gmail.com # <-- change this to suit
-
-envsubst <<EOF | oc apply -f -
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
-  name: letsencrypt
-spec:
-  acme:
-    server: https://acme-v02.api.letsencrypt.org/directory
-    email: ${EMAIL}
-    privateKeySecretRef:
-      name: letsencrypt
-    solvers:
-      - http01:
-          ingress:
-            class:  nginx
-EOF
+envsubst < clusterissuer.yaml.template | oc apply -f -
 ```
 
 Check on the status of the issuer after you've created it
