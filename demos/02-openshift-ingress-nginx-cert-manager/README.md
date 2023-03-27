@@ -248,7 +248,7 @@ At this point you can navigate to the `${DNS_RECORD_NAME}` URL in any browser an
 By observing the output in a browser you can also determine that the request your workload received was plain old HTTP.
 This means nginx done its job - it has routed traffic from the ELB to your workload, meanwhile providing a transparent termination point for the TLS encryption.
 
-## Your goal (recap)
+## Goal complete (recap)
 All the elements of the diagram are now in place.
 
 ![title](images/nginx-tls-os.png)
