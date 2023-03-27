@@ -176,7 +176,7 @@ One major difference between opinionated Platform as a Service (PaaS) offerings 
 OpenShift will, when necessary, build container images as part of the deployment process.
 
 To stand up a demo application which you will go on to secure, run the following.
-``````
+```
 oc new-project demos
 oc new-app https://github.com/amcginlay/openshift-test
 ```
