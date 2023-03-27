@@ -83,6 +83,12 @@ Now you can successfully deploy your NGINX Ingress Controller instance, as follo
 Your previous `watch` command will reveal additional workloads and services as your Ingress Controller instance comes online.
 You will observe your new service object is of type LoadBalancer, with the EXTERNAL-IP column identifying the associated AWS Load Balancer.
 
+After a 2-3 mins the load balancer will begin returning "404 Not Found" responses. This is the expected response as there are no routing rules in place yet.
+```
+elb_dnsname=$(kubectl -n ingress-nginx get service ingress-nginx-controller -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+curl -L http://${elb_dnsname}
+```
+
 ## Configure Route53
 
 NOTE if you wish to complete this section using the AWS CLI, check out the necessary steps detailed in the [addendum](./addendum/README.md).
@@ -96,7 +102,7 @@ NOTE using day of the month in the DNS record (below) is a simplistic way to tes
 
 Start by setting variables to represent the DNS record name you wish to target.
 ```bash
-hosted_zone=jetstack.mcginlay.net   # IMPORTANT - adjust as appropriate
+hosted_zone=jetstack.venafi.net   # IMPORTANT - adjust as appropriate
 record_subdomain_name=www$(date +"%d") # e.g. www01 - where the digits indicate the day of the month (for testing)
 export dns_record_name=${record_subdomain_name}.${hosted_zone}
 echo
