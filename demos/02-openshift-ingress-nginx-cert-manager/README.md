@@ -15,7 +15,7 @@ To clarify, this means traffic touching the internet is HTTPS whilst traffic tou
 
 The NGINX Ingress Operator is a version of NGINX packaged for deployment via OpenShift's OperatorHub.
 Instead of having to edit NGINX configuration files by hand, NGINX Ingress supports declarative configuration via Kubernetes Ingress objects.
-Those Ingress objects can reference certificates stored as Kubernetes secrets.
+Those Ingress objects can reference certificates stored as [TLS secrets](https://kubernetes.io/docs/concepts/configuration/secret/#tls-secrets) in Kubernetes.
 On its own, NGINX Ingress is unable to create certificates or renew them before they expire.
 That's where cert-manager and Let's Encrypt come in.
 
@@ -259,7 +259,7 @@ All the elements of the diagram are now in place.
 cert-manager is aware of annotated Ingress objects.
 
 It deduced from this Ingress object that traffic to `openshift-test` is intended to be secured by Let's Encrypt and silently built a cert-manager Certificate object to represent that requirement.
-The presence of that Certificate object triggers a sequence of events in cert-manager which ultimately causes a matching [TLS secret](https://kubernetes.io/docs/concepts/configuration/secret/#tls-secrets) to be deposited in the demos namespace.
+The presence of that Certificate object triggers a sequence of events in cert-manager which ultimately causes a matching TLS Secret to be deposited in the demos namespace.
 
 You can view the Certificate and Secret pairs as follows.
 ```bash
