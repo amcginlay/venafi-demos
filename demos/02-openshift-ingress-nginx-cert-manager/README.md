@@ -111,8 +111,7 @@ Start by setting variables to represent the DNS record name you wish to target.
 hosted_zone=venafi.mcginlay.net   # IMPORTANT - adjust as appropriate
 record_subdomain_name=www$(date +"%d") # e.g. www01 - where the digits indicate the day of the month (for testing)
 export DNS_RECORD_NAME=${record_subdomain_name}.${hosted_zone}
-echo
-echo "TODO: Route53 ALIAS required between DNS record ${DNS_RECORD_NAME}" and ${elb_dnsname}
+echo "MANUAL STEP: Route53 ALIAS required between DNS record ${DNS_RECORD_NAME}" and ELB ${elb_dnsname}
 ```
 
 Head over to https://console.aws.amazon.com/route53/v2/hostedzones and create your new DNS record in your hosted zone as shown below.
@@ -186,8 +185,10 @@ You can watch your app progress to "deployed" status as follows.
 watch oc status
 ```
 
-Note: `oc new-app` automatically creates a ClusterIP service for your workload.
-`oc expose` can create a publicly accessible route via Openshift's default ingress controller but you want your NGINX Ingress Controller to take on this responsibility via an Ingress rule.
+Note: `oc new-app` automatically attaches a ClusterIP service to your workload.
+The next logical step is often documented as `oc expose` which would creates a route to your workload via the Openshift's "default" Ingress Controller.
+These instructions omit that step since your goal is to surface the app via an NGINX Ingress Controller.
+That goal is achieved with an Ingress rule as described in your next and final step.
 
 ## Your goal (checkpoint 2)
 The following diagram illustrates your progress towards the goal of this exercise.
@@ -202,21 +203,22 @@ NGINX Ingress Controller instances works the same, except the controller compone
 
 As you create your first Ingress object, observe the use of the `ingressClassName` attribute which associates your Ingress rule with a specific variant of Ingress controller (`nginx`), and the `cert-manager.io/issuer` annotation which associates your rule with your Issuer object (`letsencrypt`).
 ```bash
-export CERTIFICATE=$(tr \. - <<< ${DNS_RECORD_NAME})-tls
+export TLS_SECRET=$(tr \. - <<< ${DNS_RECORD_NAME})-tls
 
 envsubst <<EOF | oc -n demos apply -f -
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: demo-ingress
+  name: openshift-test
   annotations:
-    cert-manager.io/issuer: "letsencrypt" # TLS requirement - enables cert-manager
+    cert-manager.io/cluster-issuer: "letsencrypt"     # TLS requirement - enables cert-manager
+    acme.cert-manager.io/http01-edit-in-place: "true" # https://stackoverflow.com/questions/65096183
 spec:
   ingressClassName: nginx                 # instruct NGINX Ingress controller to ingest this Ingress object
   tls:                                    # TLS requirement
   - hosts:                                # TLS requirement
     - ${DNS_RECORD_NAME}                  # TLS requirement - domain name(s) to secure
-    secretName: ${CERTIFICATE}            # TLS requirement - certificate stored here
+    secretName: ${TLS_SECRET}             # TLS requirement - X.509 certificate stored here as a TLS Secret
   rules:
   - host: ${DNS_RECORD_NAME}
     http:
@@ -225,7 +227,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: demo-app
+            name: openshift-test
             port:
               number: 8080
 EOF
@@ -277,5 +279,13 @@ Venafi TLS Protect For Kubernetes includes an enterprise-hardened version of `ce
 So look out for more demos, revealing what else is possible.
 
 This chapter is complete.
+
+## Rollback
+- `oc delete project demos`
+- `oc delete clusterissuer letsencrypt`
+- OperatorHub
+  - Uninstall "cert-manager"
+  - Delete "nginxingress-sample" controller instance
+  - Uninstall "NGINX Ingress Operator"
 
 Next: [Main Menu](/README.md) | [Openshift with ingress-nginx and cert-manager](../02-openshift-ingress-nginx-cert-manager/README.md)
