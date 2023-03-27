@@ -262,7 +262,7 @@ All the elements of the diagram are now in place.
 cert-manager is aware of annotated Ingress objects.
 
 It deduced from your Ingress object that traffic to `openshift-test` is intended to be secured by Let's Encrypt so it silently built a cert-manager Certificate object to represent that requirement.
-The presence of that Certificate object triggered a sequence of events in cert-manager which ultimately caused a matching TLS Secret to be deposited in the demos namespace.
+The presence of that Certificate object triggered a sequence of events which resulted in a matching TLS Secret, signed by Let's Encrypt, to be deposited in the demos namespace.
 
 You can view the Certificate and Secret pairs as follows.
 ```bash
