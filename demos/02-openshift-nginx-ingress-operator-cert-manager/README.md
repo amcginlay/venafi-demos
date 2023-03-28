@@ -123,7 +123,7 @@ Head over to https://console.aws.amazon.com/route53/v2/hostedzones and create yo
 
 ![title](images/route53.png)
 
-Once the DNS record has propagated, the new endpoint will also respond with the familiar "404" status page from `nginx`.
+Once the DNS record has propagated, the new endpoint will also respond with the familiar "404" status page from NGINX.
 Wait for this to happen before continuing.
 ```bash
 curl -L http://${DNS_RECORD_NAME}
