@@ -192,7 +192,7 @@ envsubst < ingress.yaml.template | tee /dev/tty | oc -n demos apply -f -
 ```
 
 You can observe your Ingress object as follows.
-You will observe that this supports traffic on port 443 (HTTPS).
+Note that this supports traffic on port 443 (HTTPS).
 ```bash
 oc -n demos get ingress openshift-test
 ```
