@@ -6,7 +6,7 @@ Specifically, if you're using AWS, OpenShift, NGINX Ingress and cert-manager, wh
 
 ## Introduction
 Your goal here is to enforce secure TLS communication between any browser on the internet and a single containerized workload running in an OpenShift cluster hosted on AWS.
-Much like regular Kubernetes clusters hosted on public cloud providers, OpenShift supports safely exposing your workloads to the internet via load balancers.
+<!-- Much like regular Kubernetes clusters hosted on public cloud providers, OpenShift supports safely exposing your workloads to the internet via load balancers. -->
 
 In this scenario, your browser will expect HTTPS (which implies TLS) but your workload only supports HTTP.
 
