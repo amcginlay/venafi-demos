@@ -11,7 +11,7 @@ Your goal here is to enforce secure TLS communication between any browser on the
 In this scenario, your browser will expect HTTPS (which implies TLS) but your workload only supports HTTP.
 
 We can implement a reverse proxy solution by positioning an NGINX instance between an internet-facing load balancer (AWS ELB) and the HTTP workload.
-The nginx instance can then be loaded with publicly trusted X.509 certificates, making it responsible for TLS termination.
+The NGINX instance can then be loaded with publicly trusted X.509 certificates, making it responsible for TLS termination.
 To clarify, this means traffic touching the internet is HTTPS whilst traffic touching the workload is plain old HTTP.
 
 The NGINX Ingress Operator is a version of NGINX packaged for deployment via OpenShift's OperatorHub.
