@@ -58,7 +58,7 @@ From the **OperatorHub**.
 - Search for "nginx ingress" then click the "NGINX Ingress Operator" tile
 - Click "Install", accept all default settings and click "Install" once more.
 
-If you wish to watch the nginx-ingress workloads and services as they come online, set up a watch command with the CLI as follows.
+If you wish to watch the NGINX Ingress workloads and services as they come online, set up a watch command with the CLI as follows.
 ```
 watch oc -n openshift-operators get pod,svc
 ```
