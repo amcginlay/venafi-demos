@@ -256,4 +256,12 @@ This chapter is complete.
 - `oc -n nginx-ingress adm policy remove-scc-from-user -z nginx-ingress privileged`
 - `oc patch OperatorHub cluster --type json -p '[{"op": "add", "path": "/spec/disableAllDefaultSources", "value": true}]'`
 
+## Appendix
+Occasionally, on MacOS, dig resolves but curl does not. If this happens, try this.
+```
+# https://apple.stackexchange.com/questions/251678/dns-resolution-fails-for-ping-and-curl-but-not-dig
+sudo killall -HUP mDNSResponder
+```
+
+
 Next: [Main Menu](/README.md) | [Openshift with ingress-nginx and cert-manager](../02-openshift-ingress-nginx-cert-manager/README.md)
