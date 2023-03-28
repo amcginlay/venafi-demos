@@ -55,7 +55,7 @@ From the **OperatorHub**.
 
 If you wish to watch the NGINX Ingress workloads and services as they come online, set up a watch command with the CLI as follows.
 ```
-watch oc -n openshift-operators get pod,svc
+watch oc -n nginx-ingress get pod,svc
 ```
 
 ## Deploy NGINX Ingress Controller instance
