@@ -42,7 +42,7 @@ OperatorHub is the web console interface that OpenShift administrators use to en
 
 The OperatorHub is available here https://your-console/operatorhub/all-namespaces
 
-**Note** some OperatorHub sources may not be available by default so run the following to ensure your library is fully stocked.
+**Note** some OperatorHub sources may not be available by default so run a patch command to ensure your library is fully stocked.
 ```
 oc patch OperatorHub cluster --type json \
   -p '[{"op": "add", "path": "/spec/disableAllDefaultSources", "value": false}]'
