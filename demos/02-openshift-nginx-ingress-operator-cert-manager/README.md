@@ -34,6 +34,7 @@ These instructions depend upon content from this directory so `git clone` this r
 ### Check CLI/console connectivity
 Check connectivity via the **CLI**, navigate to the **Console** URL produced and login as `kubeadmin`.
 ```
+oc status
 oc -n openshift-console get routes console -o=jsonpath="{range}{'https://'}{.spec.host}{'\n'}{end}"
 ```
 
