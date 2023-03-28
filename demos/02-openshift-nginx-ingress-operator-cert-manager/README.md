@@ -14,10 +14,9 @@ We can implement a reverse proxy solution by positioning an NGINX instance betwe
 The NGINX instance can then be loaded with publicly trusted X.509 certificates, making it responsible for TLS termination.
 To clarify, this means traffic touching the internet is HTTPS whilst traffic touching the workload is plain old HTTP.
 
-The NGINX Ingress Operator is a version of NGINX packaged for deployment via OpenShift's OperatorHub.
-Instead of having to edit NGINX configuration files by hand, NGINX Ingress supports declarative configuration via Kubernetes Ingress objects.
+Instead of having to edit NGINX configuration files by hand, NGINX Ingress does this for you by reacting to the presence of Kubernetes Ingress objects.
 Those Ingress objects can reference certificates stored as [TLS Secrets](https://kubernetes.io/docs/concepts/configuration/secret/#tls-secrets) in Kubernetes.
-On their own, NGINX Ingress Controllers are unable to create certificates or renew them before they expire.
+On their own, NGINX Ingress Controllers are unable to create or renew certificates.
 That's where cert-manager and Let's Encrypt come in.
 
 ## Your goal
