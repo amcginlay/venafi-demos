@@ -38,7 +38,7 @@ oc -n openshift-console get routes console -o=jsonpath="{range}{'https://'}{.spe
 ```
 
 ## The OpenShift OperatorHub
-OperatorHub is a UI-based service catalogue for OpenShift and is the preferred way to extend its capabilities.
+OperatorHub is the web console interface that OpenShift administrators use to enable extended capabilities.
 
 The OperatorHub is available here https://your-console/operatorhub/all-namespaces
 
