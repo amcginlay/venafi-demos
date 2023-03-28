@@ -37,16 +37,13 @@ Check connectivity via the **CLI**, navigate to the **Console** URL produced and
 oc -n openshift-console get routes console -o=jsonpath="{range}{'https://'}{.spec.host}{'\n'}{end}"
 ```
 
-<!-- Henceforth we will refer to this URL location as https://your-console/. -->
-
 ## The OpenShift OperatorHub
-The preferred package manager for OpenShift is OperatorHub which is accessible via the console.
-When possible, the OperatorHub should be used in preference to traditional Kubernetes tools like Helm.
+OperatorHub is a UI-based service catalogue for OpenShift and is the preferred way to extend its capabilities.
 
 The OperatorHub is available here https://your-console/operatorhub/all-namespaces
 
-Some of the OperatorHub sources may not be available by default meaning that, for example, the **NGINX Ingress Operator** may appear to be unavailable.
-The following patch will ensure Operators from all the default sources are shown.
+**Note** some OperatorHub sources may not be available by default.
+Run the following to ensure your library is fully stocked.
 ```
 oc patch OperatorHub cluster --type json \
   -p '[{"op": "add", "path": "/spec/disableAllDefaultSources", "value": false}]'
@@ -173,7 +170,7 @@ You can watch your app progress to "deployed" status as follows.
 watch oc status
 ```
 
-Note: `oc new-app` automatically attaches a ClusterIP service to your workload.
+**Note** `oc new-app` automatically attaches a ClusterIP service to your workload.
 The next logical step is often documented as `oc expose` which would creates a route to your workload via the Openshift's "default" Ingress Controller.
 These instructions omit that step since your goal is to surface the app via an NGINX Ingress Controller.
 That goal is achieved with an Ingress rule as described in your next and final step.
@@ -196,7 +193,7 @@ envsubst < ingress.yaml.template | tee /dev/tty | oc -n demos apply -f -
 ```
 
 You can observe your Ingress object as follows.
-Note that this supports traffic on port 443 (HTTPS).
+You will observe that this supports traffic on port 443 (HTTPS).
 ```bash
 oc -n demos get ingress openshift-test
 ```
