@@ -18,8 +18,8 @@ function end_of_section() {
   read -p "↲" && pei "clear"
 }
 
-function cluster_info() {
-  pei "oc cluster-info"
+function check_status() {
+  pei "oc status"
 }
 
 function check_console_uri() {
@@ -39,12 +39,12 @@ patch_nginx_sa() {
 function verify_ingress_nginx() {
   pei "elb_dnsname=\$(oc -n nginx-ingress get service nginxingress-sample-nginx-ingress -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
   pei "echo \${elb_dnsname}"
-  pei 'printf "waiting ." && until curl -L http://${elb_dnsname} >/dev/null 2>&1; do printf ".";sleep 1;done;echo' # NOTE: "$" not escaped here!
+  printf "waiting ." && until curl -L http://${elb_dnsname} >/dev/null 2>&1; do printf ".";sleep 1;done;echo
   pei "curl -L http://\${elb_dnsname}"
 }
 
 function export_dns_record_name() {
-  subdomain_ext=${1:-$(date +"%d%H%M")} # arg1 is override
+  subdomain_ext=${1:-$(date +"%d")} # arg1 is override
   pei "hosted_zone=venafi.mcginlay.net" # IMPORTANT - adjust as appropriate
   pei "subdomain_ext=${subdomain_ext}"
   pei "export DNS_RECORD_NAME=www\${subdomain_ext}.\${hosted_zone}"
@@ -58,7 +58,7 @@ function configure_r53() {
 
 function verify_r53() {
   # depends on export_dns_record_name()
-  pei 'printf "waiting ." && until curl -L http://${DNS_RECORD_NAME} >/dev/null 2>&1; do printf ".";sleep 1;done;echo' # NOTE: "$" not escaped here!
+  printf "waiting ." && until curl -L http://${DNS_RECORD_NAME} >/dev/null 2>&1; do printf ".";sleep 1;done;echo
   pei "curl -L http://${DNS_RECORD_NAME}"
 }
 
@@ -67,8 +67,9 @@ function verify_cert_manager() {
 }
 
 function create_issuer() {
+  pei "cat clusterissuer.yaml.template"
   pei "export EMAIL=jbloggs@gmail.com # <-- change this to suit"
-  pei "envsubst < clusterissuer.yaml.template | tee /dev/tty | oc apply -f -"
+  pei "envsubst < clusterissuer.yaml.template | oc apply -f -"
 }
 
 function verify_issuer() {
@@ -80,25 +81,24 @@ function deploy_workload() {
   pei "oc new-app https://github.com/amcginlay/openshift-test"
 }
 
-function export_tls_secret() {
-  # depends on export_dns_record_name()
-  pei "export TLS_SECRET=$(tr \. - <<< ${DNS_RECORD_NAME})-tls"
-}
-
 function create_ingress_rule() {
-  # depends on export_tls_secret()
-  pei "envsubst < ingress.yaml.template | tee /dev/tty | oc -n demos apply -f -"
+  # depends on export_dns_record_name()
+  pei "cat ingress.yaml.template"
+  pei "echo \${DNS_RECORD_NAME}"
+  pei "export TLS_SECRET=$(tr \. - <<< ${DNS_RECORD_NAME})-tls"
+  pei "envsubst < ingress.yaml.template | oc -n demos apply -f -"
+  pei "sleep 2 # NGINX adjusting ..."
 }
 
 function verify_ingress_rule() {
   # depends on export_dns_record_name()
   pei "oc -n demos get ingress openshift-test"
-  pei 'printf "waiting ." && until curl -L https://${DNS_RECORD_NAME} >/dev/null 2>&1; do printf ".";sleep 1;done;echo' # NOTE: "$" not escaped here!
+  printf "waiting ." && until curl -L https://${DNS_RECORD_NAME} >/dev/null 2>&1; do printf ".";sleep 1;done;echo
   pei "curl -Ls https://${DNS_RECORD_NAME}"
 }
 
 function summary() {
-  # depends on export_tls_secret()
+  # depends on TLS_SECRET
   pei "oc -n demos get certificate ${TLS_SECRET}"
   pei "oc -n demos describe secret ${TLS_SECRET} | tail -4"
   pei "oc -n demos get secret ${TLS_SECRET} -o 'go-template={{index .data \"tls.crt\"}}' | base64 --decode | openssl x509 -noout -text | head -11"
@@ -108,18 +108,22 @@ function summary() {
 clear
 read -p "↲"
 
-cluster_info
-check_console_uri
+check_status
 end_of_section
 
 patch_operatorhub
+end_of_section
+
+check_console_uri
+end_of_section
+
 manual_step "Install NGINX Ingress Operator (watch)"
 patch_nginx_sa
 manual_step "Deploy NGINX Ingress Controller instance (watch)"
 verify_ingress_nginx
 end_of_section
 
-export_dns_record_name "01" # <- use arg to override dated subdomain extension
+export_dns_record_name # <- use arg to override dated subdomain extension
 configure_r53
 verify_r53
 end_of_section
@@ -135,7 +139,6 @@ end_of_section
 deploy_workload
 end_of_section
 
-export_tls_secret
 create_ingress_rule
 verify_ingress_rule
 end_of_section
