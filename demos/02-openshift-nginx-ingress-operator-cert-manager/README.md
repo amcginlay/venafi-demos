@@ -246,7 +246,7 @@ This chapter is complete.
 
 ## Rollback
 - delete Route53 ALIAS
-- `oc delete project demos`
+- `oc delete project demos && oc project default`
 - `oc delete clusterissuer letsencrypt`
 - OperatorHub
   - Uninstall "cert-manager"
