@@ -146,8 +146,9 @@ The OperatorHub install of cert-manager does not require any patching and automa
 cert-manager is unable to oversee the creation of any certificates until you have at least one Issuer in place.
 The simplest way to create the publicly trusted certificates you require is via [Let's Encrypt](https://letsencrypt.org/), so go ahead and set up a cluster-wide issuer for that.
 ```
+cat clusterissuer.yaml.template
 export EMAIL=jbloggs@gmail.com # <-- change this to suit
-envsubst < clusterissuer.yaml.template | tee /dev/tty | oc apply -f -
+envsubst < clusterissuer.yaml.template  | oc apply -f -
 ```
 
 Check on the status of the issuer after you've created it
@@ -188,8 +189,10 @@ NGINX Ingress Controller instances works the same, except the controller compone
 
 As you create your first Ingress object, observe the use of the `ingressClassName` attribute which associates your Ingress rule with a specific variant of Ingress controller (`nginx`), and the `cert-manager.io/issuer` annotation which associates your rule with your Issuer object (`letsencrypt`).
 ```bash
+cat ingress.yaml.template
+echo ${DNS_RECORD_NAME}
 export TLS_SECRET=$(tr \. - <<< ${DNS_RECORD_NAME})-tls
-envsubst < ingress.yaml.template | tee /dev/tty | oc -n demos apply -f -
+envsubst < ingress.yaml.template  | oc -n demos apply -f -
 ```
 
 You can observe your Ingress object as follows.
