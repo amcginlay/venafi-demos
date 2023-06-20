@@ -1,34 +1,37 @@
 # TLSPK Notifications via Microsoft Teams
 
 In this demo we attempt to answer a question.
-If you're using Microsoft Teams alongside TLS Protect For Kubernetes (TLSPK) how can you be notified that an observed machine identity requires your attention?
+If you're using Microsoft Teams alongside Venafi TLS Protect For Kubernetes (TLSPK) how can you be notified that an observed machine identity requires your attention?
 
 ## Introduction
 Let's imagine you have 100 Kubernetes clusters, each maintaining 100 machine identities.
 In this case, TLSPK is the perfect observability tool for the task.
 That said, when everything's running smoothly, the contents of the dashboard are unspectacular so perhaps you don't want it front-and-center at all times.
-To protect against outages, you need a mechanism to draw your attention back to the dashboard when a noteworthy even occurs.
+To efficiently protect against outages, you need a mechanism to draw your attention back to the dashboard when a noteworthy event occurs.
 
 That's what TLSPK Notifications are all about.
 
 ## Your goal
 
-You don't need to be running 100's of clusters to experience TLSPK notifications.
-In this exercise you will register just one disposable cluster within which you'll create a Certificate TLSPK deems to be unsafe.
+You don't need to be running 100's of clusters to see TLSPK Notifications in action.
+In this exercise you will register just one disposable cluster within which you'll create a Certificate which TLSPK deems to be unsafe or unusable.
 With the appropriate configuration in place, TLSPK will notify you via Microsoft Teams that a noteworthy event requiring your attention has occurred.
 
 ## Prerequisites
+To complete this task, the following is required
 - Admin access to a TLSPK Organization via https://platform.jetstack.io/ with the Microsoft Teams integration feature enabled.
-- The ability to create instances of [channels](https://learn.microsoft.com/en-us/microsoftteams/teams-channels-overview) and [connectors](https://learn.microsoft.com/en-us/connectors/) in Microsoft Teams
-- Root level command-line access to a disposable x86 Ubuntu (22.04 or later) or Amazon Linux VM.
+- The ability to create instances of [Channels](https://learn.microsoft.com/en-us/microsoftteams/teams-channels-overview) and [Connectors](https://learn.microsoft.com/en-us/connectors/) in Microsoft Teams
+- Root level command-line access to a single disposable x86 Ubuntu (22.04 or later) or Amazon Linux VM.
   This VM will be used to host a lightweight Kubernetes cluster.
   For this we recommend a minimum of 4 CPUs, 4GB RAM, 30GB disk.
 
-## Lightweight cluster creation (Linux Only)
+## Lightweight cluster creation (tlspk-helper.sh)
 
 **NOTE** pay close attention to the output at each step. Follow on-screen prompts and **STOP** if any unrecoverable failures occur.
 
-From a Bash session on your **disposable** Linux VM, download the helper script
+**NOTE** the TLSPK helper script is not the only way to build disposable Kubernetes clusters for use with TLSPK, so feel free to complete these steps with whatever tools you choose.
+
+From a Bash session on your **disposable** Linux VM, download the TLSPK helper script
 ```
 cd ${HOME}
 curl -fsSLO https://venafi-ecosystem.s3.amazonaws.com/tlspk/v1/tlspk-helper.sh && chmod 700 tlspk-helper.sh
@@ -38,7 +41,7 @@ Set the TLSPK service account credentials into environment variables.
 These can be generated via https://platform.jetstack.io/org/PLACE_ORG_NAME_HERE/manage/service_accounts
 ```
 export TLSPK_SA_USER_ID=<ID>@<ORG>.platform.jetstack.io
-export TLSPK_SA_USER_SECRET='<USER_SECRET>' # leave the quotes in place to preserve any control chars present in secret
+export TLSPK_SA_USER_SECRET='<USER_SECRET>' # leave the quotes in place to preserve any control chars present in the user secret
 ```
 
 Install the dependencies required by the helper script.
@@ -80,9 +83,9 @@ Deploy cert-manager via the TLSPK Operator as follows
 ./tlspk-helper.sh deploy-operator-components --auto-approve
 ```
 
-Confirm that cert-manager was successfully installed (READY 1/1)
+Confirm that cert-manager was successfully installed
 ```
-kubectl -n jetstack-secure get deploy cert-manager
+kubectl -n jetstack-secure get deploy cert-manager    # <<- this should show "READY 1/1"
 ```
 
 ## Configure Microsoft Teams to receive notifications from TLSPK
@@ -246,7 +249,7 @@ One cluster, one Certificate issued one way and only one failure mode.
 Imagine scaling this up to dozens of clusters which may not even use cert-manager yet.
 Imagine hundreds of undocumented Certificates, built without modern guardrails and rapidly expiring.
 
-Venafi TLS Protect For Kubernetes the capabilities needed to enable effective machine identity management for OpenShift and Kubernetes clusters in the Enterprise.
+Venafi TLS Protect For Kubernetes provides the capabilities needed to enable effective machine identity management for OpenShift and Kubernetes clusters in the Enterprise.
 
 So look out for more demos like this, revealing how effective machine identity management can accelerate your cloud native development and prevent application outages or security breaches.
 
