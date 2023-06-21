@@ -185,7 +185,7 @@ Click the **"View"** link and keep the page open as we complete the next step.
 ## Resolve the error
 
 Obviously the intention is to address each alert, and this one is no exception.
-The Certificate entered an error state in TLSPC because the **"self-signed"** ClusterIssuer did not exist when the Certificate was created.
+The Certificate entered an error state in TLSPK because the **"self-signed"** ClusterIssuer did not exist when the Certificate was created.
 Let's introduce the missing ClusterIssuer by making an adjustment to the TLSPK Installation manifest.
 
 ```
@@ -247,7 +247,7 @@ kubectl -n demo-certs create secret tls $(tr '.' '-' <<< ${expired_fqdn})-tls --
 The example you just saw was simple in the extreme.
 One cluster, one Certificate issued one way and only one failure mode.
 Imagine scaling this up to dozens of clusters which may not even use cert-manager yet.
-Imagine hundreds of undocumented Certificates, built without modern guardrails and rapidly expiring.
+Imagine hundreds of undocumented Certificates, built without modern guardrails and sleepwalking towards expiry.
 
 Venafi TLS Protect For Kubernetes provides the capabilities needed to enable effective machine identity management for OpenShift and Kubernetes clusters in the Enterprise.
 
