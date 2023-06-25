@@ -13,7 +13,6 @@ That's what TLSPK Notifications are all about.
 
 ## Your goal
 
-You don't need to be running 100's of clusters to see TLSPK Notifications in action.
 In this exercise you will register just one disposable cluster within which you'll create a Certificate which TLSPK deems to be unsafe or unusable.
 With the appropriate configuration in place, TLSPK will notify you via Microsoft Teams that a noteworthy event requiring your attention has occurred.
 
@@ -42,6 +41,11 @@ These can be generated via https://platform.jetstack.io/org/PLACE_ORG_NAME_HERE/
 ```
 export TLSPK_SA_USER_ID=<ID>@<ORG>.platform.jetstack.io
 export TLSPK_SA_USER_SECRET='<USER_SECRET>' # leave the quotes in place to preserve any control chars present in the user secret
+```
+
+You may securely check these variables are in place as follows
+```
+env | grep '^TLSPK_' | awk -F '=' '{print $1"=<redacted>"}'
 ```
 
 Install the dependencies required by the helper script.
@@ -255,4 +259,4 @@ So look out for more demos like this, revealing how effective machine identity m
 
 This chapter is complete.
 
-Next: [Main Menu](/README.md) | [Openshift with ingress-nginx and cert-manager](../02-openshift-ingress-nginx-cert-manager/README.md)
+Next: [Main Menu](/README.md) | [TLSPK Notifications via PagerDuty](../05-tlspk-notifications-via-pagerduty/README.md)
