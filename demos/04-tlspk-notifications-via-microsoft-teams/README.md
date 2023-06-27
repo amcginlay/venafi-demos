@@ -13,7 +13,7 @@ That's what TLSPK Notifications are all about.
 
 ## Your goal
 
-In this exercise you will register just one disposable cluster within which you'll create a Certificate which TLSPK deems to be unsafe or unusable.
+In this exercise you will register just one disposable cluster within which you'll create a cert-manager Certificate which TLSPK deems to be unsafe or unusable.
 With the appropriate configuration in place, TLSPK will notify you via Microsoft Teams that a noteworthy event requiring your attention has occurred.
 
 ## Prerequisites
@@ -25,8 +25,6 @@ To complete this task, the following is required
   For this we recommend a minimum of 4 CPUs, 4GB RAM, 30GB disk.
 
 ## Lightweight cluster creation (tlspk-helper.sh)
-
-**NOTE** pay close attention to the output at each step. Follow on-screen prompts and **STOP** if any unrecoverable failures occur.
 
 **NOTE** the TLSPK helper script is not the only way to build disposable Kubernetes clusters for use with TLSPK, so feel free to complete these steps with whatever tools you choose.
 
@@ -62,7 +60,7 @@ cluster_name=${nickname}-$(cut -c-13 <<< $(date +"%y%m%d%H%M%N"))
 
 ## Register cluster (TLSPK Agent)
 
-Deploying the TLSPK agent on your cluster will cause a cluster to become registered with TLSPK.
+Deploying the TLSPK agent on your cluster will cause that cluster to become registered with TLSPK.
 
 Deploy the TLSPK agent as follows
 ```
@@ -161,11 +159,11 @@ cat << EOF | kubectl -n demo-certs apply -f -
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: test.mcginlay-net
+  name: test.mcginlay.net
 spec:
   secretName: test-mcginlay-net-tls
   dnsNames:
-    - test-mcginlay.net
+    - test.mcginlay.net
   usages:
   - server auth
   issuerRef:
