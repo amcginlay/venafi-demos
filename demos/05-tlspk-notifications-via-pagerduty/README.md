@@ -71,9 +71,9 @@ Deploy the TLSPK agent as follows
 After a few seconds, navigate to https://platform.jetstack.io/org/PLACE_ORG_NAME_HERE/certinventory to confirm your new cluster has been successfully registered.
 If you click through on the cluster, assuming "Show system Certificates" is deselected, you should see no Certificates.
 
-<div align="center" style="border: 1px solid black;">
+<p align="center">
   <img src="images/cluster-no-certs.png"/>
-</div>
+</p>
 
 You will also observe a "🔔 CONFIGURE ALERTS" button.
 Keep this page open as you'll return here shortly.
