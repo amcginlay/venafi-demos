@@ -1,4 +1,5 @@
-# Machine Identity Management via AWS CloudFormation
+# TLSPC CloudFormation Automation - Venafi Ecosystem Workshop
+
 ## Introduction
 * [00. Infrastructure As Code and AWS CloudFormation](00-iac-cloudformation/README.md)
 
@@ -16,8 +17,3 @@
 
 ## Appendices
 * [101. Appendix - CloudFormation from AWS CLI](101-cloudformation-from-aws-cli/README.md)
-
-
-
-
-Next: [Main Menu](/README.md)
