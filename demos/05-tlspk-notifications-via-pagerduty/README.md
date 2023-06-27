@@ -231,4 +231,4 @@ So look out for more demos like this, revealing how effective machine identity m
 
 This chapter is complete.
 
-Next: [Main Menu](/README.md) | [Openshift with ingress-nginx and cert-manager](../02-openshift-ingress-nginx-cert-manager/README.md)
+Next: [Main Menu](/README.md) | [Machine Identity Management via AWS CloudFormation](../06-machine-identity-management-via-aws-cloudformation/README.md)
