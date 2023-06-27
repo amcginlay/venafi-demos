@@ -72,7 +72,7 @@ After a few seconds, navigate to https://platform.jetstack.io/org/PLACE_ORG_NAME
 If you click through on the cluster, assuming "Show system Certificates" is deselected, you should see no Certificates.
 
 <p align="center">
-  <img src="images/cluster-no-certs.png" />
+  <img src="images/cluster-no-certs.png" style="border: 1px solid black;" />
 </p>
 
 You will also observe a "🔔 CONFIGURE ALERTS" button.
