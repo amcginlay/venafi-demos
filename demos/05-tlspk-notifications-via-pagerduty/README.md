@@ -135,7 +135,7 @@ Finally, on the **"Integrations"** page, select the tile labeled **"Events API V
 The **"Summary"** page describes the capabilities of your chosen Integration and presents you with an **"Integration Key"**.
 
 Once your Integration is is place, you will be taken to the **"Service Integrations"** screen for your new Service.
-On the right hand side of the screen, locate the **"Alert Events Integration URL"** for the **"Events API V2"** Integration.
+On the right hand side of the screen, locate the **"Integration Key"** for the **"Events API V2"** Integration.
 
 **Copy these values** for use later in these instructions.
 
@@ -158,7 +158,7 @@ Click the **"CREATE"** button before closing all the dialogs to activate your in
 ## Create an invalid Certificate
 
 There are a variety of Certificate states which TLSPK categorizes as **high-risk** or **error** states.
-In order to test the Microsoft Teams integration you set up, you can create a single, invalid cert-manager Certificate that references a **non-existent cert-manager Issuer**, as follows.
+In order to test the PagerDuty integration you set up, you can create a single, invalid cert-manager Certificate that references a **non-existent cert-manager Issuer**, as follows.
 
 ```
 kubectl create namespace demo-certs
