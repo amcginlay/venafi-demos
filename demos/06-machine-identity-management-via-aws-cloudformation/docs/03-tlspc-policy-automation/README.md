@@ -13,16 +13,6 @@ In this context a Policy is represented by a pair of TLSPC resources, as follows
 
 The choice to pair these resources under the term "Policy" was inspired by the implementation of VCert's [setpolicy](https://github.com/Venafi/vcert/blob/master/README-CLI-CLOUD.md#parameters-for-applying-certificate-policy) action, which condenses the functionality of the underlying resources down to their essential features.
 
-## TLSPCPolicy Templates and Functions
-
-TLSPCPolicy Stack Create/Update actions make use of two objects stored in a publicly accessible (read-only) S3 bucket.
-They are as follows:
-
-| Type | Description | S3 | Source |
-| - | - | - | - |
-| Template | Orchestrates the lifecycle of a TLSPCPolicy Custom Resource which references the Function | https://venafi-ecosystem.s3.amazonaws.com/tlspc/templates/tlspc-policy.yaml | [View](../../tlspc/templates/tlspc-policy.yaml)  |
-| Function | Implements the Create/Update/Delete operations required by the TLSPCPolicy Custom Resource | https://venafi-ecosystem.s3.amazonaws.com/tlspc/functions/tlspc-policy.zip | [View](../../tlspc/functions/tlspc-policy/app/app.py) |
-
 ## A note on Defaults and "soft" errors
 
 Unless otherwise stated, all AWS Console settings should be left in their **DEFAULT** state.
@@ -32,7 +22,36 @@ Unless otherwise stated, all AWS Console settings should be left in their **DEFA
 </p>
 
 Any red banners which appear in the AWS Console during these steps (shown above) are typically caused by policy restrictions in the AWS Account.
-These "soft" errors will not prohibit you from clicking the "Submit" button and can be safely **IGNORED**.
+It is possible these are "soft" errors, in which case these will not prohibit you from clicking the "Submit" button and can be safely **IGNORED**.
+
+## Tenants
+
+TLSPC expects a work related email to be provided during its standard sign-up procedure (i.e. **not** one used for personal communication).
+If the domain of your email was hitherto unseen, TLSPC will assign you a pristine tenant/workspace.
+In all other cases the existing tenant/workspace for the domain, with its current configuration and data, is shared between users in the same domain.
+To provide isolation whilst you experiment with TLSPC you may prefer to set up an email address against a personal domain.
+
+Pristine tenants include a single pre-defined Certificate Authority (CA), of type **"BUILTIN"**, named **"Built-In CA"**.
+For convenience, pristine tenants also include a corresponding CIT named **"Default"** with a wide-open policy.
+
+## Certificate Authority Products (DigiCert)
+
+Despite it not always being evident from the TLSPC UI, the CITs you create require a CA Product to be specified.
+At the API/SDK level, CA Products take the form of a triplet in the form `<CA_PROVIDER>\<CA_TLSPC_NAME>\<CA_PRODUCT_OPTION>`.
+In the case of the **"Built-In CA"**, which has a single Product, that triplet is always `BUILTIN\Built-In CA\Default Product`.
+
+This is fine for communication between **private** workloads but you'll need an alternate CA, such as [**DigiCert**](www.digicert.com), before TLSPC can deliver any publicly trusted certificates for you.
+
+The following instructions assume you have pre-configured a `DIGICERT` CA instance, named **"Digicert Test Account"**.
+
+**NOTE** if the assumption above is not valid in your environment, we recommend you fall back to using **"Built-In CA"**.
+
+Unlike the `BUILTIN` CA, the `DIGICERT` CA provides a variety of CA Products which are summarized [here](https://www.digicert.com/secure/requests/products/).
+The DigiCert Product supported/tested for use with this demo is **"Wildcard"**, known internally by TLSPC as `ssl_wildcard`.
+
+This is how we arrive at the CA Product `DIGICERT\Digicert Test Account\ssl_wildcard`
+
+All other CAs and their products should be considered out of scope for now.
 
 ## Creating your first Policy Stack (90 days)
 
@@ -61,23 +80,26 @@ The resulting Application and CIT in TLSPC will be used later to create certific
      ```
      johnlennon-app\johnlennon-cit-90day
      ```
-   - The **"CertificateAuthority"** is expected to match one of the entries displayed at https://ui.venafi.cloud/certificate-issuance/certificate-authorities.
-     Leave this setting unchanged, at
+   - The **"CertificateAuthorityProduct"** is configured to use the **DigiCert** CA.
+     Review the previous section to reveal how product triplets are constructed.
      ```
-     Built-In CA
+     DIGICERT\Digicert Test Account\ssl_wildcard
      ```
+     **NOTE** if no **DigiCert** CA is ready to use at this point, accept the default value of `BUILTIN\Built-In CA\Default Product`
    - **"MaxValidDays"** is the maximum number of days for which any created/renewed certificate is considered valid.
      Leave this setting unchanged, at
      ```
      90
      ```
    - **"Domains"** is a list of domain names considered valid in the context of Certificates governed by this Policy.
-     The template supports multiple domains names when provided as a comma-separated list.
-     In non-prod environments there is no requirement to own these domains so we advise you to set this value to something uniquely identifiable for **yourself**.
-     For Example, John Lennon could use
+     As you will experience laterm the template supports multiple domain names when provided as a comma-separated list.
+     For now, to support a single domain name, John Lennon could use
      ```
      johnlennon.com
      ```
+     **IMPORTANT NOTE** before building publicly trusted certificates, your CA provider requires proof of domain ownership.
+     Using the **DigiCert** **"Wildcard"** product as an example, failure to provide this proof, will ultimately cause the creation of `johnlennon.com` certificates to fail.
+     This process is known as [Domain Control Validation](https://docs.digicert.com/en/certcentral/manage-certificates/dv-certificate-enrollment/domain-control-validation--dcv--methods.html).
    - Set **"TLSPCAPIKey"** to whatever API Key value is provided to you at https://ui.venafi.cloud/platform-settings/user-preferences?key=api-keys
    - Click "Next"
 1. **Double-check** for any mistakes in the above before moving on.
@@ -92,14 +114,9 @@ After ~30 secs, the Stack will reach a "Status" of "CREATE_COMPLETE".
 
 ## Before you ask, "Yeah, but what about X?" ...
 
-In its current form these templates miss off LOTS of important **policy properties**, such as CSR parameters, Key Algorithms and Extended Key Usage.
-This is intentional ... for now.
-
-Time constraints were a factor, but there's also an important question we seek an answer for.
-In the true spirit of Infrastructure As Code, it's reasonable to suggest that your Security team could/should just encapsulate ALL policy properties as a single JSON document which you then provide as a template parameter.
-This approach is obviously much more flexible and could foster greater consistency between environments, but it also makes input validation harder and greatly increases the number ways in which Stack Creation could fail.
-
-We're open to suggestion, so **please tell us what you think?**
+In its current form these templates miss off lots of **policy properties**, such as CSR parameters, Key Algorithms and Extended Key Usage.
+This project is currently in its early stages but we have lots of "Future State" ideas that you can expect to see soon.
+If you have any of your own, please reach out so we can evaluate these too.
 
 ## Creating your second Policy Stack (60 days)
 
@@ -122,7 +139,7 @@ For example, remembering that you're probably not named John Lennon 🙂, he wou
 
 "Submit" your personalized "60day" Policy as you did previously.
 
-NOTE: the VCert logic takes the **"Zone"** and splits it into a pair of prospective resources, an Application and a CIT.
+NOTE: the VCert logic takes the **"Zone"** and splits it into a pair of prospective resources, an **Application** and a **CIT**.
 As you Create your second Policy Stack, it recognizes that the **Application** resource already exists and re-uses it.
 On the other hand, the 60 day **CIT** resource does not exist so this is created as expected.
 As you will see next, this results in your **single** Application now having both CITs attached to it.
@@ -144,9 +161,10 @@ Click on the Application name which shows as a blue hyperlink and confirm the fo
   <img src="../images/tlspc-app-zero-certs.png" />
 </p>
 
-NOTE: [Wildcard DNS records](https://en.wikipedia.org/wiki/Wildcard_DNS_record) are implicitly supported by the **current incarnation** of the TLSPC Policy template.
-This means that when we specify the domain `example.com`, the CIT will happily validate Certificates for both `www.example.com` and `app.example.com`.
-Whilst you will take advantage of this configuration in the next exercise it should be noted that this may not be suitable for production environments.
+NOTE: [Wildcard DNS records](https://en.wikipedia.org/wiki/Wildcard_DNS_record) are supported by the TLSPC Policy template.
+This means that when we specify the domain `example.com`, the CIT will support validation of Certificates for both `www.example.com` and `app.example.com`.
+That is not to say that wildcard certificate creation is guaranteed to be successful as your choice of CA Product may also influence the outcome.
+Whilst you will take advantage of this configuration in the next exercise it should be noted that this may not be suitable for modern production environments.
 
 <p align="center">
   <img src="../images/tlspc-cit-wildcards.png" />
@@ -178,15 +196,13 @@ In doing so, you will familiarize yourself with the process for updating Stacks 
 1. In the upper-right portion of the screen you will see 4 buttons.
    Locate the "Update" button and click it.
 1. On the "Update stack" page, click "Next".
-1. **Hey! You still awake? You're about to make that promised update.**
 1. On the "Specify stack details" page:
    - We stated previously that the **"Domains"** parameter is a list but we only provided a single element when the Stack was Created.
      For Example, if you're John Lennon (and you're not! 🙂), you could now use comma-separated text to specify additional domains, such as
      ```
      johnlennon.com,example.com
      ```
-     Go ahead.
-     Be like John and make a similar change!
+     Go ahead and make a similar change.
    - Click "Next"
 1. Scroll to the foot of the "Configure stack options" page, then click "Next"
 1. Scroll to the foot of the "Review" page and finally click "Submit"

@@ -14,6 +14,7 @@ Here's the CLI equivalent of some key steps you take in this workshop.
 
 ```
 STACK_BASE_NAME=johnlennon                                      # <--- PERSONALIZE THIS TO SUIT
+CERT_AUTH_PRODUCT=DIGICERT\\Digicert Test Account\\ssl_wildcard # <--- PERSONALIZE THIS TO SUIT
 
 TLSPCAPIKey=<API_KEY_FROM_TLSPC>
 PrivateKeyPassphrase=<PRIVATE_KEY_PASSPHRASE>
@@ -32,7 +33,7 @@ aws cloudformation create-stack \
   --stack-name ${STACK_BASE_NAME}-${ID}-policy \
   --template-url https://venafi-ecosystem.s3.amazonaws.com/tlspc/templates/tlspc-policy.yaml \
   --parameters \
-    ParameterKey=CertificateAuthority,ParameterValue="Built-In CA" \
+    ParameterKey=CertificateAuthorityProduct,ParameterValue="${CERT_AUTH_PRODUCT}" \
     ParameterKey=Zone,ParameterValue=${ZONE} \
     ParameterKey=MaxValidDays,ParameterValue=90 \
     ParameterKey=Domains,ParameterValue=\"${STACK_BASE_NAME}.com\" \
@@ -46,7 +47,7 @@ aws cloudformation update-stack \
   --stack-name ${STACK_BASE_NAME}-${ID}-policy \
   --template-url https://venafi-ecosystem.s3.amazonaws.com/tlspc/templates/tlspc-policy.yaml \
   --parameters \
-    ParameterKey=CertificateAuthority,UsePreviousValue=true \
+    ParameterKey=CertificateAuthorityProduct,UsePreviousValue=true \
     ParameterKey=Zone,UsePreviousValue=true \
     ParameterKey=MaxValidDays,UsePreviousValue=true \
     ParameterKey=Domains,ParameterValue=\"${STACK_BASE_NAME}.com,example.com\" \

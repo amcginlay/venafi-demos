@@ -24,17 +24,6 @@ In other words, your end goal is to avoid seeing this dialog again ...
   <img src="../images/high-and-medium-risk.png" />
 </p>
 
-## TLSPCApplication Templates and Functions
-
-TLSPCPolicy Stack Create/Update actions make use of three objects stored in a publicly accessible (read-only) S3 bucket.
-They are as follows:
-
-| Type | Description | S3 | Source |
-| - | - | - | - |
-| Template | Orchestrates the lifecycle of a TLSPCCertificate Custom Resource which references the Function. | https://venafi-ecosystem.s3.amazonaws.com/tlspc/templates/tlspc-certificate.yaml | [View](../../tlspc/templates/tlspc-certificate.yaml)  |
-| Function | Implements the Create/Update/Delete operations required by the TLSPCCertificate Custom Resource | https://venafi-ecosystem.s3.amazonaws.com/tlspc/functions/tlspc-certificate.zip | [View](../../tlspc/functions/tlspc-certificate/app/app.py) |
-| Function | A dedicated instance of the `venafi-stack-updater` Function is pre-configured to invoke the Update method of this Stack. The frequency of invocation is determined by the associated EventBridge Schedule which is also deployed by the Template | https://venafi-ecosystem.s3.amazonaws.com/tlspc/functions/venafi-stack-updater.zip | [View](../../tlspc/functions/venafi-stack-updater/app/app.py) |
-
 ## A note on Defaults and "soft" errors
 
 Unless otherwise stated, all AWS Console settings should be left in their **DEFAULT** state.
@@ -44,7 +33,7 @@ Unless otherwise stated, all AWS Console settings should be left in their **DEFA
 </p>
 
 Any red banners which appear in the AWS Console during these steps (shown above) are typically caused by policy restrictions in the AWS Account.
-These "soft" errors will not prohibit you from clicking the "Submit" button and can be safely **IGNORED**.
+It is possible these are "soft" errors, in which case these will not prohibit you from clicking the "Submit" button and can be safely **IGNORED**.
 
 ## Creating your Certificate Stack
 
@@ -156,7 +145,7 @@ When machine identities are not renewed in a timely manner, outages occur.
 The **"RenewalHours"** you specified above during Creation of the Certificate Stack determines when renewals happen.
 Since you don't have 60 days to wait around in this Workshop for an **automated** renewal, you're going to **manually** request one.
 
-NOTE: **manual** renewals are a legitimate use case, and a useful tool if any of your scheduled renewals ever fail (e.g. timeouts)
+NOTE: **manual** renewals are a legitimate use case, and a useful procedure if any of your scheduled renewals ever fail (e.g. timeouts, misconfigurations)
 
 The following CloudFormation steps will cause a **manual** Certificate renewal in TLSPC.
 
@@ -168,7 +157,7 @@ The following CloudFormation steps will cause a **manual** Certificate renewal i
 1. On the "Update Stack" page, click "Next" to reuse the existing template
    Set **"UpdateTrigger"** to:
    ```
-   Venafi Ecosystem Rocks!
+   this is a manual update
    ```
    (see NOTE below about this step)
 1. Click "Next"

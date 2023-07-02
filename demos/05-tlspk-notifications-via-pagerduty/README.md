@@ -98,7 +98,7 @@ The PagerDuty components required to complete this task are as follows.
 - **Service** - reflects a discrete piece of functionality that is wholly owned by one team. One or more technical services combine to deliver customer-facing or business capabilities.
 - **Integration** - a feature that allows you to integrate external sources of information with your team's **Services**.
 
-**NOTE** PagerDuty expects a work email to be provided during its sign-up procedure.
+**NOTE** PagerDuty expects a work email to be provided during its sign-up procedure (i.e. not one you use for personal communication).
 The domain of your email is used to build a PagerDuty subdomain (e.g. `venafi.pagerduty.com`) which determines the workspace you get admitted to.
 To provide isolation whilst you experiment with PagerDuty you may prefer to set up an email address against a personal domain.
 
