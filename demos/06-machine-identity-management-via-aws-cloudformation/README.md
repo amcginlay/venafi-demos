@@ -1,4 +1,3 @@
-# 111
 # Machine Identity Management via AWS CloudFormation
 ## Introduction
 * [00. Infrastructure As Code and AWS CloudFormation](docs/00-iac-cloudformation/README.md)
