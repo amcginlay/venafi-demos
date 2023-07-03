@@ -96,13 +96,13 @@ The resulting Application and CIT in TLSPC will be used later to create certific
      90
      ```
    - **"Domains"** is a list of domain names considered valid in the context of Certificates governed by this Policy.
-     As you will experience laterm the template supports multiple domain names when provided as a comma-separated list.
+     As you will see later, the template supports multiple domain names when provided as a comma-separated list.
      For now, to support a single domain name, John Lennon could use
      ```
      johnlennon.com
      ```
-     **IMPORTANT NOTE** before building publicly trusted certificates, your CA provider requires proof of domain ownership.
-     Using the **DigiCert** **"Wildcard"** product as an example, failure to provide this proof, will ultimately cause the creation of `johnlennon.com` certificates to fail.
+     **IMPORTANT NOTE** before building publicly trusted certificates (next chapter) your CA provider requires proof of domain ownership.
+     Using the `DIGICERT\<CA_TLSPC_NAME>\ssl_wildcard` product as an example, failure to provide proof of ownership to **DigiCert** upfront, will ultimately cause the creation of `johnlennon.com` certificates to fail.
      This process is known as [Domain Control Validation](https://docs.digicert.com/en/certcentral/manage-certificates/dv-certificate-enrollment/domain-control-validation--dcv--methods.html).
    - Set **"TLSPCAPIKey"** to whatever API Key value is provided to you at https://ui.venafi.cloud/platform-settings/user-preferences?key=api-keys
    - Click "Next"
