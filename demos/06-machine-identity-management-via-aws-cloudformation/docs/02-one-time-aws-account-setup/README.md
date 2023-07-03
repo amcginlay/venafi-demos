@@ -45,6 +45,15 @@ Please keep to this arrangement.
 NOTE: To get the most benefit from these exercises, we recommend the use of [Versioned S3 Buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Versioning.html).
 If the Stacks you create in the exercise use the default Bucket created by this One-Time Stack, then Versioning is enabled for you.
 
+## Resources Deployed
+
+The resources deployed relate mainly to IAM permissions.
+There is also an S3 bucket which is used to store state and generated artifacts.
+
+<p align="center">
+  <img src="../images/cfn-one-time-resources.png" />
+</p>
+
 ## What you learned
 
 - [Security is "Job Zero"](https://aws.amazon.com/blogs/enterprise-strategy/security-at-aws/)
