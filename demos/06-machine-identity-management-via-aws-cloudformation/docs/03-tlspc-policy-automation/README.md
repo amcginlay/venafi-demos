@@ -47,9 +47,9 @@ The following instructions assume you have pre-configured a `DIGICERT` CA instan
 **NOTE** if the assumption above is not valid in your environment, we recommend you fall back to using **"Built-In CA"**.
 
 Unlike the `BUILTIN` CA, the `DIGICERT` CA provides a variety of CA Products which are summarized [here](https://www.digicert.com/secure/requests/products/).
-The DigiCert Product supported/tested for use with this demo is **"Wildcard"**, known internally by TLSPC as `ssl_wildcard`.
+The DigiCert Product supported/tested for use with this demo is **"Cloud"**, known internally by TLSPC as `ssl_cloud_wildcard`.
 
-This is how we arrive at the CA Products such as `DIGICERT\Digicert Test Account\ssl_wildcard`
+This is how we arrive at the CA Products such as `DIGICERT\Digicert Test Account\ssl_cloud_wildcard`
 
 All other CAs and their products should be considered out of scope for now.
 
@@ -84,7 +84,7 @@ The resulting Application and CIT in TLSPC will be used later to create certific
    Choose one of the following options.
      - **Option 1** (preferred): Use the **DigiCert** CA, **adjusting** the `<CA_TLSPC_NAME>` placeholder to suit your environment.
        ```
-       DIGICERT\<CA_TLSPC_NAME>\ssl_wildcard
+       DIGICERT\<CA_TLSPC_NAME>\ssl_cloud_wildcard
        ```
      - **Option 2**: Use the **Built-In** CA.
        ```
@@ -102,7 +102,7 @@ The resulting Application and CIT in TLSPC will be used later to create certific
      johnlennon.com
      ```
      **IMPORTANT NOTE** before building publicly trusted certificates (next chapter) your CA provider requires proof of domain ownership.
-     Using the `DIGICERT\<CA_TLSPC_NAME>\ssl_wildcard` product as an example, failure to provide proof of ownership to **DigiCert** upfront, will ultimately cause the creation of `johnlennon.com` certificates to fail.
+     Using the `DIGICERT\<CA_TLSPC_NAME>\ssl_cloud_wildcard` product as an example, failure to provide proof of ownership to **DigiCert** upfront, will ultimately cause the creation of `johnlennon.com` certificates to fail.
      This process is known as [Domain Control Validation](https://docs.digicert.com/en/certcentral/manage-certificates/dv-certificate-enrollment/domain-control-validation--dcv--methods.html).
    - Set **"TLSPCAPIKey"** to whatever API Key value is provided to you at https://ui.venafi.cloud/platform-settings/user-preferences?key=api-keys
    - Click "Next"
@@ -152,7 +152,7 @@ For example, remembering that you're probably not named John Lennon 🙂, he wou
 
 "Submit" your personalized "60day" Policy as you did previously.
 
-NOTE: the VCert logic takes the **"Zone"** and splits it into a pair of prospective resources, an **Application** and a **CIT**.
+**NOTE**: the VCert logic takes the **"Zone"** and splits it into a pair of prospective resources, an **Application** and a **CIT**.
 As you Create your second Policy Stack, it recognizes that the **Application** resource already exists and re-uses it.
 On the other hand, the 60 day **CIT** resource does not exist so this is created as expected.
 As you will see next, this results in your **single** Application now having both CITs attached to it.

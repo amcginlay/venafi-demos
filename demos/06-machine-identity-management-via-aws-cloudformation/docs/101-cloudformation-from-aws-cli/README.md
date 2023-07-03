@@ -13,8 +13,8 @@ Here's the CLI equivalent of some key steps you take in this workshop.
 ### Setup Variables
 
 ```
-STACK_BASE_NAME=johnlennon                                      # <--- PERSONALIZE THIS TO SUIT
-CERT_AUTH_PRODUCT=DIGICERT\\Digicert Test Account\\ssl_wildcard # <--- PERSONALIZE THIS TO SUIT
+STACK_BASE_NAME=johnlennon                                            # <--- PERSONALIZE THIS TO SUIT
+CERT_AUTH_PRODUCT=DIGICERT\\Digicert Test Account\\ssl_cloud_wildcard # <--- PERSONALIZE THIS TO SUIT
 
 TLSPCAPIKey=<API_KEY_FROM_TLSPC>
 PrivateKeyPassphrase=<PRIVATE_KEY_PASSPHRASE>

@@ -104,6 +104,19 @@ The following steps will model your Certificate Request requirements in a Cloudf
 
 After ~30 secs, the stack will reach a "Status" of "CREATE_COMPLETE".
 
+## Resources Deployed
+
+There are four resources deployed by each Certificate Stack.
+They are as follows.
+- The Lambda function which contains the TLSPC integration logic
+- The Custom Resource which integrates with CloudFormation to decide when the Create/Update/Delete TLSPC logic should be invoked
+- The Lambda function which triggers the [UpdateStack](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_UpdateStack.html) API which, in turn, causes a Certificate to be **renewed**
+- The EventBridge Scheduled Task which regulates the frequency of renewals
+
+<p align="center">
+  <img src="../images/cfn-cert-resources.png" />
+</p>
+
 ## Reviewing your results (TLSPC)
 
 Follow these instructions to view your newly created Certificate in TLSPC.
@@ -142,8 +155,8 @@ In the world of Machine Identities there's an additional, domain-specific, opera
 Renewals can be considered a form of "Soft-Update" in which the only material change to the inputs is the time at which the event occurred.
 When machine identities are not renewed in a timely manner, outages occur.
 
-The **"RenewalHours"** you specified above during Creation of the Certificate Stack determines when renewals happen.
-Since you don't have 60 days to wait around in this Workshop for an **automated** renewal, you're going to **manually** request one.
+The **"RenewalHours"** you specified during Creation of the Certificate Stack determines when renewals happen.
+Since you don't have 60 days to wait around for an **automated** renewal, you're going to **manually** request one.
 
 NOTE: **manual** renewals are a legitimate use case, and a useful procedure if any of your scheduled renewals ever fail (e.g. timeouts, misconfigurations)
 
@@ -187,11 +200,11 @@ This indicates a successful renewal.
 
 ## Reviewing your post-renewal results (S3)
 
-NOTE: To get the most benefit from these exercises, we recommend the use of Versioned S3 Buckets. If the Stacks you create in the exercise use the Bucket created by the One-Time AWS Account Setup, this is taken care of for you.
+NOTE: To get the most benefit from this exercise, we recommend the use of Versioned S3 Buckets. If the Stacks you create in the exercise use the Bucket created by the One-Time AWS Account Setup, this is taken care of for you.
 
 Using the instructions presented earlier in this exercise (see [Reviewing your results (S3)](#reviewing-your-results-s3)) follow the instructions to view your updated Certificate in S3.
 
-1. You should see before you two files (`.cert` and `.key`) which match the CommonName of your certificate and contain its key material.
+1. You will locate two files (`.cert` and `.key`) which match the CommonName of your certificate and contain its key material.
 1. **This time**, click through on the blue link for the `.cert` file.
 1. You will observe three tabs: "Properties", "Permissions" and "Versions". Click **"Versions"**.
 
