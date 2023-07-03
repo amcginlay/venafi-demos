@@ -80,12 +80,16 @@ The resulting Application and CIT in TLSPC will be used later to create certific
      ```
      johnlennon-app\johnlennon-cit-90day
      ```
-   - The **"CertificateAuthorityProduct"** is configured to use the **DigiCert** CA.
-     Review the previous section to reveal how product triplets are constructed.
-     ```
-     DIGICERT\Digicert Test Account\ssl_wildcard
-     ```
-     **NOTE** if no **DigiCert** CA is ready to use at this point, accept the default value of `BUILTIN\Built-In CA\Default Product`
+   - You will recall that **"CertificateAuthorityProduct"** is a triplet taking the form `<CA_PROVIDER>\<CA_TLSPC_NAME>\<CA_PRODUCT_OPTION>`. 
+   Choose one of the following options.
+     - **Option 1** (preferred): Use the **DigiCert** CA, with the `<CA_TLSPC_NAME>` element **adjusted** to suit your environment.
+       ```
+       DIGICERT\Digicert Test Account\ssl_wildcard
+       ```
+     - **Option 2**: Use the **Built-In** CA.
+       ```
+       BUILTIN\Built-In CA\Default Product
+       ```
    - **"MaxValidDays"** is the maximum number of days for which any created/renewed certificate is considered valid.
      Leave this setting unchanged, at
      ```
