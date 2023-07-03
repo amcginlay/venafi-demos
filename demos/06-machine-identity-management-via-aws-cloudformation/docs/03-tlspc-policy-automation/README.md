@@ -49,7 +49,7 @@ The following instructions assume you have pre-configured a `DIGICERT` CA instan
 Unlike the `BUILTIN` CA, the `DIGICERT` CA provides a variety of CA Products which are summarized [here](https://www.digicert.com/secure/requests/products/).
 The DigiCert Product supported/tested for use with this demo is **"Wildcard"**, known internally by TLSPC as `ssl_wildcard`.
 
-This is how we arrive at the CA Product `DIGICERT\Digicert Test Account\ssl_wildcard`
+This is how we arrive at the CA Products such as `DIGICERT\Digicert Test Account\ssl_wildcard`
 
 All other CAs and their products should be considered out of scope for now.
 
@@ -82,9 +82,9 @@ The resulting Application and CIT in TLSPC will be used later to create certific
      ```
    - You will recall that **"CertificateAuthorityProduct"** is a triplet taking the form `<CA_PROVIDER>\<CA_TLSPC_NAME>\<CA_PRODUCT_OPTION>`. 
    Choose one of the following options.
-     - **Option 1** (preferred): Use the **DigiCert** CA, with the `<CA_TLSPC_NAME>` element **adjusted** to suit your environment.
+     - **Option 1** (preferred): Use the **DigiCert** CA, **adjusting** the `<CA_TLSPC_NAME>` placeholder to suit your environment.
        ```
-       DIGICERT\Digicert Test Account\ssl_wildcard
+       DIGICERT\<CA_TLSPC_NAME>\ssl_wildcard
        ```
      - **Option 2**: Use the **Built-In** CA.
        ```
@@ -116,11 +116,20 @@ The resulting Application and CIT in TLSPC will be used later to create certific
 
 After ~30 secs, the Stack will reach a "Status" of "CREATE_COMPLETE".
 
-## Before you ask, "Yeah, but what about X?" ...
+## Resources Deployed
+
+There are two resources deployed by each Policy Stack.
+They are the Lambda function, which contains the TLSPC integration logic, and the Custom Resource which integrates with CloudFormation to decide when the Create/Update/Delete logic should be invoked.
+
+<p align="center">
+  <img src="../images/cfn-policy-resources.png" />
+</p>
+
+<!-- ## Before you ask, "Yeah, but what about X?" ...
 
 In its current form these templates miss off lots of **policy properties**, such as CSR parameters, Key Algorithms and Extended Key Usage.
 This project is currently in its early stages but we have lots of "Future State" ideas that you can expect to see soon.
-If you have any of your own, please reach out so we can evaluate these too.
+If you have any of your own, please reach out so we can evaluate these too. -->
 
 ## Creating your second Policy Stack (60 days)
 
