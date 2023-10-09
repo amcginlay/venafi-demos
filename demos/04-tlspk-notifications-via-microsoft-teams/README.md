@@ -3,6 +3,8 @@
 This demo attempts to answer a question you may encounter in the enterprise.
 If you're using Microsoft Teams alongside Venafi TLS Protect For Kubernetes (often abbreviated to TLSPK) how can you be notified that an observed machine identity requires your attention?
 
+[![Get Machine Identity Alerts in Microsoft Teams](https://img.youtube.com/vi/6tNPyTvZvvg/0.jpg)](https://www.youtube.com/watch?v=6tNPyTvZvvg)
+
 ## Introduction
 Let's imagine you have 100 Kubernetes clusters, each maintaining 100 machine identities.
 In this case, TLSPK is the perfect observability tool for the task.

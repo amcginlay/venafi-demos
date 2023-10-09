@@ -5,6 +5,8 @@ If you're using PagerDuty alongside Venafi TLS Protect For Kubernetes (often abb
 
 If you tried out the recent Microsoft Teams demo you'll recognize many of the following steps
 
+[![Get Machine Identity Alerts in PagerDuty](https://img.youtube.com/vi/eEcsLkRq9_g/0.jpg)](https://www.youtube.com/watch?v=eEcsLkRq9_g)
+
 ## Introduction
 TLSPK is the perfect tool for managing cert-manger instances across a fleet of Kubernetes or OpenShift clusters.
 That said, when everything's running smoothly, the contents of the TLSPK dashboard are unspectacular so perhaps you don't want it front-and-center at all times.

@@ -1,4 +1,7 @@
 # Machine Identity Management via AWS CloudFormation
+
+[![Machine Identity Automation with AWS CloudFormation](https://img.youtube.com/vi/wwoFaVBlL3c/0.jpg)](https://youtu.be/wwoFaVBlL3c)
+
 ## Introduction
 * [00. Infrastructure As Code and AWS CloudFormation](docs/00-iac-cloudformation/README.md)
 
