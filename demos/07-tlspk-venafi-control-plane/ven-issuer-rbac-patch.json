@@ -1,0 +1,4 @@
+[
+    {"op": "add", "path": "/rules/0/resourceNames/-", "value": "venafiissuers.jetstack.io/*"},
+    {"op": "add", "path": "/rules/0/resourceNames/-", "value": "venaficlusterissuers.jetstack.io/*"}
+]

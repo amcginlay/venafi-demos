@@ -1,0 +1,23 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: ven-connection-role
+rules:
+- apiGroups: [ "" ]
+  resources: [ "secrets" ]
+  verbs: [ "get" ]
+  resourceNames: [ "vcp-credentials" ]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: ven-connection-rolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: ven-connection-role
+subjects:
+- kind: ServiceAccount
+  name: venafi-connection
+  namespace: venafi

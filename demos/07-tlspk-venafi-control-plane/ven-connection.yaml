@@ -1,0 +1,11 @@
+apiVersion: jetstack.io/v1alpha1
+kind: VenafiConnection
+metadata:
+  name: ven-connection
+spec:
+  vaas:
+    apiKey:
+     - secret:
+        name: vcp-credentials
+        fields:
+          - "api-key"

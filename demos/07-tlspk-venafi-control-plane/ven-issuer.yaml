@@ -1,0 +1,7 @@
+apiVersion: jetstack.io/v1alpha1
+kind: VenafiClusterIssuer
+metadata:
+  name: ven-issuer
+spec:
+  venafiConnectionName: ven-connection
+  zone: test-app\test-cit

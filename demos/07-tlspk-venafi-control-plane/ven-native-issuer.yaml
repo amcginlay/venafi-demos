@@ -1,0 +1,11 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: ven-native-issuer
+spec:
+  venafi:
+    zone: test-app\test-cit
+    cloud:
+      apiTokenSecretRef:
+        name: vcp-credentials
+        key: api-key
