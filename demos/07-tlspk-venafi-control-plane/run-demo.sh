@@ -107,13 +107,13 @@ function create-safe-tls-secrets() {
   echo && echo "# create VALID cert (venafidemo.com)"
   pei "export common_name=valid.${CLUSTER_NAME}.venafidemo.com"
   pei "export secret_name=valid-${CLUSTER_NAME}-venafidemo-com-tls"
-  pei "export duration_hrs=2160"
+  pei "export duration_hrs=1800" # 75 days
   pei "cat ven-certificate-template.yaml | envsubst | kubectl -n demo-certs apply -f -"
 
   echo && echo "# create INVALID cert (venafitest.com)"
   pei "export common_name=invalid.${CLUSTER_NAME}.venafitest.com"
   pei "export secret_name=invalid-${CLUSTER_NAME}-venafitest-com-tls"
-  pei "export duration_hrs=2160"
+  pei "export duration_hrs=1140" # 60 days
   pei "cat ven-certificate-template.yaml | envsubst | kubectl -n demo-certs apply -f -"
 }
 
@@ -135,6 +135,8 @@ function summary() {
 
 temp_dir=$(mktemp -d)
 
+# TODO add the VCert stuff here (or put in a separate script)
+
 delete-all-local-k8s-clusters
 create-local-k8s-cluster
 end-of-section
@@ -151,8 +153,9 @@ end-of-section
 create-unsafe-tls-secrets
 end-of-section
 
-create-native-issuer
-end-of-section
+# *** using VEI in preference to native - also possible bug where native issuer ignores duration ***
+# create-native-issuer
+# end-of-section
 
 create-vei-issuer
 end-of-section
